@@ -1,4 +1,5 @@
 import React from "react";
+import { PostInterraction } from "./services";
 
 
     // {
@@ -91,6 +92,13 @@ const ProductItem = props => {
         return "";
     }
   }
+  const access_token = localStorage.getItem("access_token");
+
+  // const handleAddToCart = () => {
+  //   PostInterraction(access_token, product.product_id, product.product_name, product.product_category, 
+  //     product.product_brand, product.product_created_for, product.price, product.product_description, product.product_color,
+  //     USERID, USERGENDER, "add to cart", 2);
+  // }
   
   return (
     <div className=" column is-half">
@@ -110,6 +118,7 @@ const ProductItem = props => {
               <span className="tag is-link is-pulled-right">${product.price}</span>
             </b>
             <div>{product.product_name}</div>
+            <div>From {product.product_brand}</div>
             <div style={{color: colorToBackgroundColor(product.product_color), fontWeight: 'bold'}}>{product.product_color}</div>
             <div className="is-clearfix">
               <button

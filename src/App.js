@@ -35,6 +35,7 @@ export default class App extends Component {
     e.preventDefault();
     this.setState({ user: null });
     localStorage.removeItem("user");
+    localStorage.removeItem("access_token");
   };
 
   addProduct = (product, callback) => {

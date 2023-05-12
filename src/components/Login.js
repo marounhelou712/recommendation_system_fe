@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import withContext from "../withContext";
 import { Redirect } from "react-router-dom";
+import { handleLOGIN } from "./services";
 
 class Login extends Component {
   constructor(props) {
@@ -18,11 +19,14 @@ class Login extends Component {
     if (!username || !password) {
       return this.setState({ error: "Fill all fields!" });
     }
+    // handleLOGIN(username, password)
     let loggedIn = this.props.context.login(username, password);
     if (!loggedIn) {
       this.setState({ error: "Invalid Credentails" });
     }
   };
+
+
 
   render() {
     return !this.props.context.user ? (
