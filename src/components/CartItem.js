@@ -1,8 +1,10 @@
 import React from "react";
+import { colorToBackgroundColor } from "./services";
 
 const CartItem = props => {
-  const { cartItem, cartKey } = props;
-  const { product, amount } = cartItem;
+  // const { cartItem, cartKey } = props;
+  const { cartItem, index } = props;
+
   return (
     <div className=" column is-half">
       <div className="box">
@@ -17,15 +19,17 @@ const CartItem = props => {
           </div>
           <div className="media-content">
             <b style={{ textTransform: "capitalize" }}>
-              {product.name}{" "}
-              <span className="tag is-primary">${product.price}</span>
+              {cartItem.product_category}{" "}
+              <span className="tag is-link is-pulled-right">${cartItem.price}</span>
             </b>
-            <div>{product.shortDesc}</div>
-            <small>{`${amount} in cart`}</small>
+            <div>{cartItem.product_name}</div>
+            <div>From {cartItem.product_brand}</div>
+            <div style={{color: colorToBackgroundColor(cartItem.product_color), fontWeight: 'bold'}}>{cartItem.product_color}</div>
+            
           </div>
           <div
             className="media-right"
-            onClick={() => props.removeFromCart(cartKey)}
+            onClick={() => props.removeFromCart(index)}
           >
             <span className="delete is-large"></span>
           </div>

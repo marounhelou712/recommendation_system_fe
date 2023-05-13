@@ -1,5 +1,6 @@
 import React from "react";
 import { PostInterraction } from "./services";
+import { colorToBackgroundColor } from "./services";
 
 
     // {
@@ -17,82 +18,9 @@ import { PostInterraction } from "./services";
 const ProductItem = props => {
   const { product } = props;
 
-  const colorToBackgroundColor = (color) => {
-    switch (color) {
-      case 'Beige':
-        return "#F5F5DC";
-  
-      case 'Black':
-        return "#000000";
-  
-      case 'Brown':
-        return "#A52A2A";
-  
-      case 'Burgundy':
-        return "#800020";
-  
-      case 'Charcoal':
-        return "#36454F";
-  
-      case 'Gold':
-        return "#FFD700";
-  
-      case 'Green':
-        return "#008000";
-  
-      case 'Grey':
-        return "#808080";
-  
-      case 'Khaki':
-        return "#C3B091";
-  
-      case 'Lavender':
-        return "#E6E6FA";
-  
-      case 'Magenta':
-        return "#FF00FF";
-  
-      case 'Maroon':
-        return "#800000";
-  
-      case 'Mustard':
-        return "#FFDB58";
-  
-      case 'Navy':
-        return "#000080";
-  
-      case 'Orange':
-        return "#FFA500";
-  
-      case 'Pink':
-        return "#FFC0CB";
-  
-      case 'Purple':
-        return "#800080";
-  
-      case 'Red':
-        return "#FF0000";
-  
-      case 'Rose':
-        return "#FF007F";
-  
-      case 'Silver':
-        return "#C0C0C0";
-  
-      case 'White':
-        return "#FFFFFF";
-  
-      case 'Yellow':
-        return "#FFFF00";
-  
-      case 'Blue':
-        return "#0000FF";
-  
-      default:
-        return "";
-    }
-  }
   const access_token = localStorage.getItem("access_token");
+
+  const [view, setView] = React.useState(false);
 
   // const handleAddToCart = () => {
   //   PostInterraction(access_token, product.product_id, product.product_name, product.product_category, 
@@ -120,6 +48,11 @@ const ProductItem = props => {
             <div>{product.product_name}</div>
             <div>From {product.product_brand}</div>
             <div style={{color: colorToBackgroundColor(product.product_color), fontWeight: 'bold'}}>{product.product_color}</div>
+            <button onClick={(e) => setView(!view)} className="button is-small is-link is-light">
+              {view ? "close": "view"}
+              </button>
+            {view &&
+            <div>{product.product_description}</div>}
             <div className="is-clearfix">
               <button
                 className="button is-small is-outlined is-link   is-pulled-right"

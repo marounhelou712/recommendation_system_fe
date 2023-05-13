@@ -4,7 +4,8 @@ import CartItem from "./CartItem";
 
 const Cart = props => {
   const { cart } = props.context;
-  const cartKeys = Object.keys(cart || {});
+  // const cartKeys = Object.keys(cart || {});
+  console.log(cart);
   return (
     <Fragment>
       <div className="hero is-link">
@@ -14,13 +15,14 @@ const Cart = props => {
       </div>
       <br />
       <div className="container" style={{height: '100vh'}}>
-        {cartKeys.length ? (
+        {cart.length ? (
           <div className="column columns is-multiline">
-            {cartKeys.map(key => (
+            {cart.map((item, index) => (
               <CartItem
-                cartKey={key}
-                key={key}
-                cartItem={cart[key]}
+                // cartKey={key}
+                // key={key}
+                cartItem={item}
+                index={index}
                 removeFromCart={props.context.removeFromCart}
               />
             ))}

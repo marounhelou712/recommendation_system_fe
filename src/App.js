@@ -14,7 +14,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       user: null,
-      cart: {},
+      cart: [],
       products: [],
       category: "Our Products"
     };
@@ -47,16 +47,16 @@ export default class App extends Component {
 
   addToCart = cartItem => {
     let cart = this.state.cart;
-    if (cart[cartItem.id]) {
-      cart[cartItem.id].amount += cartItem.amount;
-    } else {
-      cart[cartItem.id] = cartItem;
-    }
-    if (cart[cartItem.id].amount > cart[cartItem.id].product.stock) {
-      cart[cartItem.id].amount = cart[cartItem.id].product.stock;
-    }
-    localStorage.setItem("cart", JSON.stringify(cart));
-    this.setState({ cart });
+    // if (cart[cartItem.id]) {
+    //   cart[cartItem.id].amount += cartItem.amount;
+    // } else {
+    cart.push(cartItem.product);
+    // }
+    // if (cart[cartItem.id].amount > cart[cartItem.id].product.stock) {
+    //   cart[cartItem.id].amount = cart[cartItem.id].product.stock;
+    // }
+    localStorage.setItem("cart", cart);
+    this.setState({ cart: cart });
   };
 
   checkout = () => {
@@ -75,15 +75,22 @@ export default class App extends Component {
     this.clearCart();
   };
 
-  removeFromCart = cartItemId => {
+  // removeFromCart = cartItemId => {
+  //   let cart = this.state.cart;
+  //   delete cart[cartItemId];
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+  //   this.setState({ cart });
+  // };
+
+  removeFromCart = index => {
     let cart = this.state.cart;
-    delete cart[cartItemId];
-    localStorage.setItem("cart", JSON.stringify(cart));
-    this.setState({ cart });
-  };
+    delete cart[index];
+    localStorage.setItem("cart", cart)
+    this.setState({ cart })
+  }
 
   clearCart = () => {
-    let cart = {};
+    let cart = [];
     localStorage.setItem("cart", JSON.stringify(cart));
     this.setState({ cart });
   };
