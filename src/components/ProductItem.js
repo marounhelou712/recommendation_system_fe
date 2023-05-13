@@ -18,14 +18,12 @@ import { colorToBackgroundColor } from "./services";
 const ProductItem = props => {
   const { product } = props;
 
-  const access_token = localStorage.getItem("access_token");
-
   const [view, setView] = React.useState(false);
 
   // const handleAddToCart = () => {
   //   PostInterraction(access_token, product.product_id, product.product_name, product.product_category, 
   //     product.product_brand, product.product_created_for, product.price, product.product_description, product.product_color,
-  //     USERID, USERGENDER, "add to cart", 2);
+  //     5, "Male", "add to cart", 2);
   // }
   
   return (
@@ -68,12 +66,14 @@ const ProductItem = props => {
 
               <footer class="modal-card-foot" style={{justifyContent: 'flex-end'}}>
                 <button class="button is-link is-outlined is-pulled-right" 
-                onClick={() =>
+                onClick={() =>{
+                  // handleAddToCart();
                   props.addToCart({
                     id: product.name,
                     product,
-                    amount: 1
-                  })
+                    amount: 1,
+                  });
+                }
                 }>Add to cart</button>
               </footer>
             </div>
@@ -89,6 +89,7 @@ const ProductItem = props => {
                     product,
                     amount: 1
                   })
+                  
                 }
               >
                 Add to Cart

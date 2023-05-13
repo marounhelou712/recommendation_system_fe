@@ -16,14 +16,22 @@ class Login extends Component {
 
   login = () => {
     const { username, password } = this.state;
-    if (!username || !password) {
-      return this.setState({ error: "Fill all fields!" });
-    }
-    // handleLOGIN(username, password)
-    let loggedIn = this.props.context.login(username, password);
-    if (!loggedIn) {
+    // if (!username || !password) {
+    //   return this.setState({ error: "Fill all fields!" });
+    // } 
+    
+    handleLOGIN("user5", "pass5");
+
+    const acc = localStorage.getItem('access_token');
+    if (acc){
+      let loggedIn = this.props.context.login("regular", "password");
+
+    } else{
       this.setState({ error: "Invalid Credentails" });
+
     }
+    // if (!loggedIn) {
+    // }
   };
 
 

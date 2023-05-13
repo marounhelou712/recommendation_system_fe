@@ -8,6 +8,7 @@ import data from "./Data";
 import Context from "./Context";
 import "./App.css";
 import * as all from "./components/listOfAllProducts";
+import { PostInterraction } from "./components/services";
 
 export default class App extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ export default class App extends Component {
       user: null,
       cart: [],
       products: [],
-      category: "Our Products"
+      category: "Our Products",
     };
 
     this.routerRef = React.createRef();
@@ -45,18 +46,21 @@ export default class App extends Component {
     this.setState({ products }, () => callback && callback());
   };
 
+  
   addToCart = cartItem => {
     let cart = this.state.cart;
-    // if (cart[cartItem.id]) {
-    //   cart[cartItem.id].amount += cartItem.amount;
-    // } else {
     cart.push(cartItem.product);
-    // }
-    // if (cart[cartItem.id].amount > cart[cartItem.id].product.stock) {
-    //   cart[cartItem.id].amount = cart[cartItem.id].product.stock;
-    // }
     localStorage.setItem("cart", cart);
     this.setState({ cart: cart });
+
+    console.log(cartItem);
+
+    let acc = localStorage.getItem("access_token")
+
+    PostInterraction(acc, cartItem.product.product_id, cartItem.product.product_name, cartItem.product.product_category, 
+      cartItem.product.product_brand, cartItem.product.product_created_for, cartItem.product.price, cartItem.product.product_description, cartItem.product.product_color,
+      5, "Male", "add to cart", 2);
+
   };
 
   checkout = () => {

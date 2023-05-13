@@ -17,7 +17,7 @@ export async function handleLOGIN(user, password) {
     fetch('http://localhost:8080/api/authenticate', requestOptions)
     .then(response => response.json())
     .then(data => {
-        localStorage.setItem('access_token', data.id_token)
+        localStorage.setItem('access_token', data.id_token);
     }
     );
     } catch(err) {
@@ -63,8 +63,8 @@ export async function PostInterraction(
             event_id: event_id
         })
     }
-
-    fetch("http://localhost:8080/api/interactionData", requestOptions)
+    console.log("ICILA");
+    fetch("http://localhost:8080/api/interactionData", requestOptions);
 }
 
 
