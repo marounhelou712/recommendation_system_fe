@@ -163,7 +163,7 @@ export default class App extends Component {
 
                 <div class="navbar-item has-dropdown is-hoverable" >
                 <a class="navbar-link">
-                  Categories
+                  Products
                 </a>
 
                 <div class="navbar-dropdown is-link">
@@ -172,10 +172,6 @@ export default class App extends Component {
                     {all.DropDownPerGender("Unisex", this.handleChange)}
                 </div>
               </div>
-                
-                <Link to="/products" className="navbar-item">
-                  Products
-                </Link>
 
                 <Link to="/cart" className="navbar-item">
                   Cart

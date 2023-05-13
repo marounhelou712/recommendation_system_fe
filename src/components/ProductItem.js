@@ -48,11 +48,38 @@ const ProductItem = props => {
             <div>{product.product_name}</div>
             <div>From {product.product_brand}</div>
             <div style={{color: colorToBackgroundColor(product.product_color), fontWeight: 'bold'}}>{product.product_color}</div>
-            <button onClick={(e) => setView(!view)} className="button is-small is-link is-light">
-              {view ? "close": "view"}
-              </button>
+
+
             {view &&
-            <div>{product.product_description}</div>}
+            <div class="modal is-active">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Product description</p>
+                <button class="delete" aria-label="close" onClick={(e) => setView(false)}></button>
+              </header>
+
+              <section class="modal-card-body">
+                <div>{product.product_description}</div>
+
+
+              </section>
+
+
+              <footer class="modal-card-foot" style={{justifyContent: 'flex-end'}}>
+                <button class="button is-link is-outlined is-pulled-right" 
+                onClick={() =>
+                  props.addToCart({
+                    id: product.name,
+                    product,
+                    amount: 1
+                  })
+                }>Add to cart</button>
+              </footer>
+            </div>
+          </div>
+            
+            }
             <div className="is-clearfix">
               <button
                 className="button is-small is-outlined is-link   is-pulled-right"
@@ -65,6 +92,10 @@ const ProductItem = props => {
                 }
               >
                 Add to Cart
+              </button>
+
+              <button onClick={(e) => setView(true)} className="button is-small is-link is-light is-outlined is-pulled-right">
+              {view ? "close": "view"}
               </button>
             </div>
           </div>

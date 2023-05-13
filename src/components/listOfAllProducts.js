@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 export const listOfAllProducts_Backpack = [
     {
@@ -4661,14 +4662,15 @@ const isCategoryForThisGender = (category, gender) => {
 
 const showInDropDown = (category, gender, handleChange) => {
 
-
   return (
     isCategoryForThisGender(category, gender) &&
+    <Link to="/products">
       <a
-      onClick={(e) => handleChange(listOfCategoryPerGender(category,gender))}
+      onClick={(e) => {handleChange(listOfCategoryPerGender(category,gender)); }}
       class="dropdown-item">
         {category[0].product_category}
       </a>
+    </Link>
   );
 }
 
@@ -4692,7 +4694,6 @@ export const showAllInDropDown = (gender, handleChange) => {
     {showInDropDown(listOfAllProducts_FlipFlop, gender, handleChange)}
     {showInDropDown(listOfAllProducts_Heels, gender, handleChange)}
     {showInDropDown(listOfAllProducts_Jacket, gender, handleChange)}
-    {showInDropDown(listOfAllProducts_Jar, gender, handleChange)}
     {showInDropDown(listOfAllProducts_Jeans, gender, handleChange)}
     {showInDropDown(listOfAllProducts_Joggers, gender, handleChange)}
     {showInDropDown(listOfAllProducts_Jumpsuit, gender, handleChange)}
@@ -18150,52 +18151,6 @@ export const DropDownPerGender = (gender, handleChange) => {
       "price": 16.64,
       "product_description": "Olive Green solid bomber jacket, has a mock collar, 3 pockets, zip closure, long sleeves, straight hem, and polyester",
       "product_color": "Green"
-    }]
-
-    export const listOfAllProducts_Jar = [
-    {
-      "product_id": 681,
-      "product_name": "MIAH Decor Red & Grey Art Storage Jar",
-      "product_category": "Jar",
-      "category_id": "",
-      "product_brand": "MIAH Decor",
-      "product_created_for": "Unisex",
-      "price": 8.83,
-      "product_description": "Pattern: PrintedFinish: GlossyMaterial: Ceramic",
-      "product_color": "Red"
-    },
-    {
-      "product_id": 680,
-      "product_name": "MIAH Decor Blue & Beige Handpainted Mughal Art Large Storage Jar",
-      "product_category": "Jar",
-      "category_id": "",
-      "product_brand": "MIAH Decor",
-      "product_created_for": "Unisex",
-      "price": 14.99,
-      "product_description": "Set Content: 1 jarPattern: PrintedFinish: GlossyMaterial: Ceramic",
-      "product_color": "Blue"
-    },
-    {
-      "product_id": 674,
-      "product_name": "MIAH Decor Brown Set of 3 Printed Ceramic Art Storage Jar",
-      "product_category": "Jar",
-      "category_id": "",
-      "product_brand": "MIAH Decor",
-      "product_created_for": "Unisex",
-      "price": 31.16,
-      "product_description": "Content: Set of 3 Printed Ceramic Art Storage JarPattern: PrintedFinish: GlossyMaterial: CeramicFeatures: Dishwasher and Microwave Safe",
-      "product_color": "Brown"
-    },
-    {
-      "product_id": 678,
-      "product_name": "MIAH Decor Brown Art Storage Jar",
-      "product_category": "Jar",
-      "category_id": "",
-      "product_brand": "MIAH Decor",
-      "product_created_for": "Unisex",
-      "price": 14.99,
-      "product_description": "Pattern: PrintedFinish: GlossyMaterial: Ceramic",
-      "product_color": "Brown"
     }]
 
     export const listOfAllProducts_Jeans = [
