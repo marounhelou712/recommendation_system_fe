@@ -13,6 +13,31 @@ const ProductList = props => {
       </div>
       <br />
       <div className="container">
+        <div className="navbar-end" style={{backgroundColor: '#f0f8ff'}}>
+        <div class="navbar-item" style={{width: '150px'}}>
+          <input class="input is-link" type="text" placeholder= "min price"
+          onChange={(e) => {props.context.changeMinPrice(e.target.value)}}/>
+          </div>
+
+          <div class="navbar-item" style={{width: '150px'}}>
+          <input class="input is-link" type="text" placeholder="max price"
+          onChange={(e) => props.context.changeMaxPrice(e.target.value)}/>
+          </div>  
+
+          <div class="navbar-item">
+            <button class="button is-link is-outlined"
+            onClick={() => props.context.filterPrice()}>
+              Filter
+            </button>
+          </div> 
+
+          <div class="navbar-item">
+            <button class="button is-link is-outlined"onClick={() => props.context.resetPrice()}>
+              Reset
+            </button>
+          </div> 
+        </div>
+
         <div className="column columns is-multiline">
           {products && products.length ? (
             products.map((product, index) => (

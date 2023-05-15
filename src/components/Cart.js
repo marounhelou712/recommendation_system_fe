@@ -14,7 +14,7 @@ const Cart = props => {
         </div>
       </div>
       <br />
-      <div className="container" style={{height: '100vh'}}>
+      <div className="container">
         {cart.length ? (
           <div className="column columns is-multiline">
             {cart.map((item, index) => (

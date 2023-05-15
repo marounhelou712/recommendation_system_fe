@@ -169,6 +169,19 @@ export const colorToBackgroundColor = (color) => {
   
   //   return false;
   // }
+
+  export const filterByPrice = (minPrice, maxPrice, category) => {
+    if (minPrice === "" || maxPrice === "" || minPrice === -1 || maxPrice === -1){
+      return category
+    }
+    let res = []
+    for (const element of category){
+      if ((element.price >= minPrice) && (element.price <= maxPrice)){
+        res.push(element);
+      }
+    }
+    return res;
+  }
   
   const showInDropDown = (category, handleChange) => {
     return (
@@ -223,7 +236,7 @@ export const colorToBackgroundColor = (color) => {
       //     </a>
   
         <div class="dropdown" id="dropdown" role="menu">
-          <div class="dropdown-content" onClick={() => {const drop = document.querySelector(".dropdown"); drop.style.display = "none"}}>
+          <div class="dropdown-content">
               {showAllInDropDown(handleChange)}
           </div>
         </div>

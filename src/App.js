@@ -10,7 +10,7 @@ import ForYou from "./components/foryou";
 import "./App.css";
 import { PostInterraction } from "./components/services";
 import { listWatch } from "./components/listOfAllProducts";
-import { DropDownPerGender } from "./components/services";
+import { DropDownPerGender, filterByPrice } from "./components/services";
 
 export default class App extends Component {
   constructor(props) {
@@ -18,11 +18,11 @@ export default class App extends Component {
     this.state = {
       user: null,
       cart: [],
+      initialProducts: [],
       products: [],
       category: "Our Products",
-      bestSeller: [],
-      contentBased: [],
-      deepLearning: []
+      minprice: "",
+      maxprice: ""
     };
 
     this.routerRef = React.createRef();
@@ -118,14 +118,37 @@ export default class App extends Component {
 
     let products = listWatch;
 
-    this.setState({ products });
+    this.setState({ products: products, initialProducts: products });
   }
 
   handleChange = (array) => {
     let productList = array;
     let category = array[0].product_category;
-    let finalArray = category
-    this.setState({ products: productList, category: finalArray});
+    this.setState({ products: productList, initialProducts: productList, category: category});
+  }
+
+  changeMinPrice = value => {
+    this.setState({minprice: value})
+  }
+
+  changeMaxPrice = value => {
+    this.setState({maxprice: value})
+  }
+
+  filterPrice = () => {
+    console.log(this.state.minprice)
+    this.setState({products: filterByPrice(this.state.minprice, this.state.maxprice,this.state.initialProducts)});
+  }
+
+  resetPrice = () => {
+    this.setState({products: this.state.initialProducts, minprice: -1, maxprice: -1});
+    const allInputs = document.querySelectorAll(".input");
+    console.log(allInputs);
+
+    for (const element of allInputs){
+      console.log(element);
+      element.value= ""
+    }
   }
 
 //(/api/bestSeller)
@@ -140,11 +163,15 @@ export default class App extends Component {
           addProduct: this.addProduct,
           clearCart: this.clearCart,
           checkout: this.checkout,
-          viewProduct: this.viewProduct
+          viewProduct: this.viewProduct,
+          changeMinPrice: this.changeMinPrice,
+          changeMaxPrice: this.changeMaxPrice,
+          filterPrice: this.filterPrice,
+          resetPrice: this.resetPrice
         }}
       >
         <Router ref={this.routerRef}>
-          <div className="App">
+          <div className="App" style={{backgroundColor:'#f0f8ff', minHeight: '100vh'}}>
             <nav
               className="navbar container"
               role="navigation"
@@ -204,6 +231,42 @@ export default class App extends Component {
                     {Object.keys(this.state.cart).length}
                   </span>
                 </Link>
+
+
+                  {/* <div class="navbar-item" style={{width: '150px'}}>
+                  <input class="input is-link" type="text" placeholder= "min price"
+                  onChange={(e) => this.setState({minprice: e.target.value})}/>
+                  </div>
+
+                  <div class="navbar-item" style={{width: '150px'}}>
+                  <input class="input is-link" type="text" placeholder="max price"
+                  onChange={(e) => this.setState({maxprice: e.target.value})}/>
+                  </div>  
+
+                  <div class="navbar-item">
+                    <button class="button is-link is-outlined"onClick={() => {this.setState({products: filterByPrice(this.state.minprice, this.state.maxprice,this.state.initialProducts)}); console.log(window.location.href)}}>
+                      Filter
+                    </button>
+                  </div> 
+
+                  <div class="navbar-item">
+                    <button class="button is-link is-outlined"onClick={() => 
+                      {
+                        this.setState({products: this.state.initialProducts, minprice: -1, maxprice: -1});
+                        const allInputs = document.querySelectorAll(".input");
+                        console.log(allInputs);
+
+                        for (const element of allInputs){
+                          console.log(element);
+                          element.value= ""
+                        }
+                      }}>
+                      Reset
+                    </button>
+                  </div>  */}
+             
+                
+
                 <div class="navbar-end">
                 {!this.state.user ? (
                   <Link to="/login" className="navbar-item">

@@ -46,7 +46,7 @@ class Login extends Component {
         </div>
         <br />
         <br />
-        <div className="columns is-mobile is-centered" style={{height: '100vh'}}>
+        <div className="columns is-mobile is-centered">
           <div className="column is-one-third">
             <div className="field">
               <label className="label">User Name: </label>
