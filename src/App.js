@@ -6,9 +6,11 @@ import AddProduct from "./components/AddProduct";
 import Cart from "./components/Cart";
 import data from "./Data";
 import Context from "./Context";
+import ForYou from "./components/foryou";
 import "./App.css";
-import * as all from "./components/listOfAllProducts";
 import { PostInterraction } from "./components/services";
+import { listOfAllProducts_Bangle } from "./components/listOfAllProducts";
+import { DropDownPerGender } from "./components/services";
 
 export default class App extends Component {
   constructor(props) {
@@ -18,6 +20,9 @@ export default class App extends Component {
       cart: [],
       products: [],
       category: "Our Products",
+      bestSeller: [],
+      contentBased: [],
+      deepLearning: []
     };
 
     this.routerRef = React.createRef();
@@ -46,45 +51,55 @@ export default class App extends Component {
     this.setState({ products }, () => callback && callback());
   };
 
+  viewProduct = product => {
+    let acc = localStorage.getItem("access_token");
+
+    if (acc) {
+      PostInterraction(acc, product.product.product_id, product.product.product_name, product.product.product_category, 
+        product.product.product_brand, product.product.product_created_for, product.product.price, product.product.product_description, product.product.product_color,
+        5, "Male", "view", 1);
+    }
+  }
+
+///api/userId
   
   addToCart = cartItem => {
-    let cart = this.state.cart;
-    cart.push(cartItem.product);
-    localStorage.setItem("cart", cart);
-    this.setState({ cart: cart });
+    let acc = localStorage.getItem("access_token");
 
-    console.log(cartItem);
 
-    let acc = localStorage.getItem("access_token")
 
-    PostInterraction(acc, cartItem.product.product_id, cartItem.product.product_name, cartItem.product.product_category, 
-      cartItem.product.product_brand, cartItem.product.product_created_for, cartItem.product.price, cartItem.product.product_description, cartItem.product.product_color,
-      5, "Male", "add to cart", 2);
+    if (acc) {
+      let cart = this.state.cart;
+      cart.push(cartItem.product);
+      localStorage.setItem("cart", cart);
+      this.setState({ cart: cart });
 
+      PostInterraction(acc, cartItem.product.product_id, cartItem.product.product_name, cartItem.product.product_category, 
+        cartItem.product.product_brand, cartItem.product.product_created_for, cartItem.product.price, cartItem.product.product_description, cartItem.product.product_color,
+        5, "Male", "add to cart", 2);
+
+    } else {
+      this.routerRef.current.history.push("/login");
+    }
   };
 
   checkout = () => {
-    if (!this.state.user) {
+    let acc = localStorage.getItem("acces_token");
+
+    if (acc) {
+    const cart = this.state.cart;
+    console.log(cart);
+    cart.map(p => {
+      PostInterraction(acc, p.product_id, p.product_name, p.product_category, 
+        p.product_brand, p.product_created_for, p.price, p.product_description, p.product_color,
+        5, "Male", "purchase", 3);
+    });
+    this.clearCart();}
+    else{
       this.routerRef.current.history.push("/login");
       return;
     }
-    const cart = this.state.cart;
-    const products = this.state.products.map(p => {
-      if (cart[p.name]) {
-        p.stock = p.stock - cart[p.name].amount;
-      }
-      return p;
-    });
-    this.setState({ products });
-    this.clearCart();
   };
-
-  // removeFromCart = cartItemId => {
-  //   let cart = this.state.cart;
-  //   delete cart[cartItemId];
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-  //   this.setState({ cart });
-  // };
 
   removeFromCart = index => {
     let cart = this.state.cart;
@@ -99,15 +114,12 @@ export default class App extends Component {
     this.setState({ cart });
   };
 
-  // componentDidMount() {
-  //   let products = localStorage.getItem("products");
-  //   let cart = localStorage.getItem("cart");
-  //   let user = localStorage.getItem("user");
-  //   products = products ? JSON.parse(products) : data.initProducts;
-  //   cart = cart ? JSON.parse(cart) : {};
-  //   user = user ? JSON.parse(user) : null;
-  //   this.setState({ products, user, cart });
-  // }
+  componentDidMount() {
+
+    let products = listOfAllProducts_Bangle;
+
+    this.setState({ products });
+  }
 
   handleChange = (array) => {
     let productList = array;
@@ -117,7 +129,7 @@ export default class App extends Component {
     this.setState({ products: productList, category: finalArray});
   }
 
-
+//(/api/bestSeller)
   render() {
     return (
       <Context.Provider
@@ -128,7 +140,8 @@ export default class App extends Component {
           login: this.login,
           addProduct: this.addProduct,
           clearCart: this.clearCart,
-          checkout: this.checkout
+          checkout: this.checkout,
+          viewProduct: this.viewProduct
         }}
       >
         <Router ref={this.routerRef}>
@@ -140,7 +153,7 @@ export default class App extends Component {
               style={{backgroundColor: '#f0f8ff'}}
             >
               <div className="navbar-brand">
-                <b className="navbar-item is-size-4 ">E-Commerce</b>
+                <b className="navbar-item is-size-4 " onClick={() => window.location.href="/home"}>RECOMs as a Service</b>
 
                 <a
                   href="/"
@@ -165,15 +178,21 @@ export default class App extends Component {
                 }`}
               >
 
+              <Link to="/home" className="navbar-item">
+                Home
+              </Link>
+
                 <div class="navbar-item has-dropdown is-hoverable" >
                 <a class="navbar-link">
                   Products
                 </a>
 
                 <div class="navbar-dropdown is-link">
-                    {all.DropDownPerGender("Male", this.handleChange)}
-                    {all.DropDownPerGender("Female", this.handleChange)}
-                    {all.DropDownPerGender("Unisex", this.handleChange)}
+                    {DropDownPerGender("Male", this.handleChange)}
+                    <hr class="dropdown-divider"></hr>
+                    {DropDownPerGender("Female", this.handleChange)}
+                    <hr class="dropdown-divider"></hr>
+                    {DropDownPerGender("Unisex", this.handleChange)}
                 </div>
               </div>
 
@@ -186,6 +205,7 @@ export default class App extends Component {
                     {Object.keys(this.state.cart).length}
                   </span>
                 </Link>
+                <div class="navbar-end">
                 {!this.state.user ? (
                   <Link to="/login" className="navbar-item">
                     Login
@@ -195,15 +215,17 @@ export default class App extends Component {
                     Logout
                   </a>
                 )}
+                </div>
               </div>
             </nav>
 
             <Switch>
-              <Route exact path="/" component={ProductList} />
+              <Route exact path="/" component={ForYou} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/cart" component={Cart} />
               <Route exact path="/add-product" component={AddProduct} />
               <Route exact path="/products" component={ProductList} />
+              <Route exact path="/home" component={ForYou}/>
             </Switch>
           </div>
         </Router>

@@ -27,7 +27,7 @@ const ProductItem = props => {
   // }
   
   return (
-    <div className=" column is-half">
+    <div className=" column is-half" >
       <div className="box">
         <div className="media">
           <div className="media-left">
@@ -39,6 +39,10 @@ const ProductItem = props => {
             </figure>
           </div>
           <div className="media-content">
+            <div  onClick={(e) => {
+            setView(true);
+            props.viewProduct({product: product})
+            }}>
             <b style={{ textTransform: "capitalize" }}>
               {product.product_category}{" "}
               <span className="tag is-link is-pulled-right">${product.price}</span>
@@ -47,8 +51,31 @@ const ProductItem = props => {
             <div>From {product.product_brand}</div>
             <div style={{color: colorToBackgroundColor(product.product_color), fontWeight: 'bold'}}>{product.product_color}</div>
 
+          </div>
+            <div className="is-clearfix">
+              <button
+                className="button is-small is-outlined is-link   is-pulled-right"
+                onClick={() =>{
+                  props.addToCart({
+                    id: product.name,
+                    product,
+                    amount: 1
+                  })
+                }
+                }
+              >
+                Add to Cart
+              </button>
 
-            {view &&
+              {/* <button onClick={(e) => setView(true)} className="button is-small is-link is-light is-outlined is-pulled-right">
+              {view ? "close": "view"}
+              </button> */}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {view &&
             <div class="modal is-active">
             <div class="modal-background"></div>
             <div class="modal-card">
@@ -58,6 +85,13 @@ const ProductItem = props => {
               </header>
 
               <section class="modal-card-body">
+                  <b style={{ textTransform: "capitalize" }}>
+                  {product.product_category}{" "}
+                  <span className="tag is-link is-pulled-right">${product.price}</span>
+                </b>
+                <div>{product.product_name}</div>
+                <div>From {product.product_brand}</div>
+                <div style={{color: colorToBackgroundColor(product.product_color), fontWeight: 'bold'}}>{product.product_color}</div>
                 <div>{product.product_description}</div>
 
 
@@ -77,31 +111,8 @@ const ProductItem = props => {
                 }>Add to cart</button>
               </footer>
             </div>
-          </div>
-            
-            }
-            <div className="is-clearfix">
-              <button
-                className="button is-small is-outlined is-link   is-pulled-right"
-                onClick={() =>
-                  props.addToCart({
-                    id: product.name,
-                    product,
-                    amount: 1
-                  })
-                  
-                }
-              >
-                Add to Cart
-              </button>
-
-              <button onClick={(e) => setView(true)} className="button is-small is-link is-light is-outlined is-pulled-right">
-              {view ? "close": "view"}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+          </div> 
+          }
     </div>
   );
 };

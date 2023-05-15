@@ -20,16 +20,16 @@ class Login extends Component {
     //   return this.setState({ error: "Fill all fields!" });
     // } 
     
-    handleLOGIN("user5", "pass5");
+    // handleLOGIN("user5", "pass5");
 
-    const acc = localStorage.getItem('access_token');
-    if (acc){
-      let loggedIn = this.props.context.login("regular", "password");
+    // const acc = localStorage.getItem('access_token');
+    let loggedIn = this.props.context.login("regular", "password");
+    // if (acc){
 
-    } else{
-      this.setState({ error: "Invalid Credentails" });
+    // } else{
+    //   this.setState({ error: "Invalid Credentails" });
 
-    }
+    // }
     // if (!loggedIn) {
     // }
   };
@@ -74,7 +74,7 @@ class Login extends Component {
                 className="button is-link is-outlined is-pulled-right"
                 onClick={this.login}
               >
-                Submit
+                Log In
               </button>
             </div>
           </div>
