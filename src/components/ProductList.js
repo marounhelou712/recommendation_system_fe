@@ -15,12 +15,12 @@ const ProductList = props => {
       <div className="container">
         <div className="navbar-end" style={{backgroundColor: '#f0f8ff'}}>
         <div class="navbar-item" style={{width: '150px'}}>
-          <input class="input is-link" type="text" placeholder= "min price"
+          <input class="input is-link has-text-grey-light	" type="text" placeholder= "min. price"
           onChange={(e) => {props.context.changeMinPrice(e.target.value)}}/>
           </div>
 
           <div class="navbar-item" style={{width: '150px'}}>
-          <input class="input is-link" type="text" placeholder="max price"
+          <input class="input is-link has-text-grey-light" type="text" placeholder="max. price"
           onChange={(e) => props.context.changeMaxPrice(e.target.value)}/>
           </div>  
 

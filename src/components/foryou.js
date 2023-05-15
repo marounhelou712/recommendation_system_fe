@@ -16,8 +16,8 @@ const ForYou = props => {
       <br />
       <div className="container">
             <div className="container" style={{backgroundColor: '#f0f8ff'}}>
-                <div className="has-text-centered is-size-4">
-                    Best Sellers
+                <div className="has-text-centered is-size-4 has-text-weight-semibold	">
+                    BEST SELLERS
                 </div>
                 
             </div>
