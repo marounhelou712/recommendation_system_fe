@@ -9,7 +9,7 @@ import Context from "./Context";
 import ForYou from "./components/foryou";
 import "./App.css";
 import { PostInterraction } from "./components/services";
-import { listOfAllProducts_Bangle } from "./components/listOfAllProducts";
+import { listWatch } from "./components/listOfAllProducts";
 import { DropDownPerGender } from "./components/services";
 
 export default class App extends Component {
@@ -116,7 +116,7 @@ export default class App extends Component {
 
   componentDidMount() {
 
-    let products = listOfAllProducts_Bangle;
+    let products = listWatch;
 
     this.setState({ products });
   }
@@ -124,8 +124,7 @@ export default class App extends Component {
   handleChange = (array) => {
     let productList = array;
     let category = array[0].product_category;
-    let gender = array[0].product_created_for;
-    let finalArray = category + " / " + gender
+    let finalArray = category
     this.setState({ products: productList, category: finalArray});
   }
 
@@ -188,11 +187,11 @@ export default class App extends Component {
                 </a>
 
                 <div class="navbar-dropdown is-link">
-                    {DropDownPerGender("Male", this.handleChange)}
+                    {DropDownPerGender(this.handleChange)}
+                    {/* <hr class="dropdown-divider"></hr>
+                    {DropDownPerGender(this.handleChange)}
                     <hr class="dropdown-divider"></hr>
-                    {DropDownPerGender("Female", this.handleChange)}
-                    <hr class="dropdown-divider"></hr>
-                    {DropDownPerGender("Unisex", this.handleChange)}
+                    {DropDownPerGender(this.handleChange)} */}
                 </div>
               </div>
 
