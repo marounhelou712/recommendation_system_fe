@@ -5,7 +5,6 @@ import CartItem from "./CartItem";
 const Cart = props => {
   const { cart } = props.context;
   // const cartKeys = Object.keys(cart || {});
-  console.log(cart);
   return (
     <Fragment>
       <div className="hero is-link">
@@ -30,14 +29,14 @@ const Cart = props => {
               <br />
               <div className="is-pulled-right">
                 <button
-                  onClick={props.context.clearCart}
+                  onClick={() => props.context.clearCart()}
                   className="button is-link  is-outlined"
                 >
                   Clear cart
                 </button>{" "}
                 <button
                   className="button is-link"
-                  onClick={props.context.checkout}
+                  onClick={() => props.context.checkout()}
                 >
                   Checkout
                 </button>

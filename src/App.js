@@ -27,21 +27,21 @@ export default class App extends Component {
 
     this.routerRef = React.createRef();
   }
-  login = (usn, pwd) => {
-    let user = data.users.find(u => u.username === usn && u.password === pwd);
-    if (user) {
-      this.setState({ user });
-      localStorage.setItem("user", JSON.stringify(user));
-      return true;
-    }
-    return false;
+  login = (data) => {
+    this.setState({ user: data });
+    localStorage.setItem('user', data);
   };
+
+  setUser = () => {
+    this.setState({user: 4})
+  }
 
   logout = e => {
     e.preventDefault();
-    this.setState({ user: null });
+    this.setState({ user: null, cart: [] });
     localStorage.removeItem("user");
     localStorage.removeItem("access_token");
+    window.location.pathname = "/home"
   };
 
   addProduct = (product, callback) => {
@@ -66,8 +66,6 @@ export default class App extends Component {
   addToCart = cartItem => {
     let acc = localStorage.getItem("access_token");
 
-
-
     if (acc) {
       let cart = this.state.cart;
       cart.push(cartItem.product);
@@ -84,12 +82,13 @@ export default class App extends Component {
   };
 
   checkout = () => {
-    let acc = localStorage.getItem("acces_token");
-
+    let acc = localStorage.getItem("access_token");
+    console.log("in checkout")
     if (acc) {
-    const cart = this.state.cart;
+    let cart = this.state.cart;
     console.log(cart);
     cart.map(p => {
+      console.log(p)
       PostInterraction(acc, p.product_id, p.product_name, p.product_category, 
         p.product_brand, p.product_created_for, p.price, p.product_description, p.product_color,
         5, "Male", "purchase", 3);
@@ -111,7 +110,7 @@ export default class App extends Component {
   clearCart = () => {
     let cart = [];
     localStorage.setItem("cart", JSON.stringify(cart));
-    this.setState({ cart });
+    this.setState({ cart: cart });
   };
 
   componentDidMount() {
@@ -119,6 +118,10 @@ export default class App extends Component {
     let products = listWatch;
 
     this.setState({ products: products, initialProducts: products });
+  }
+
+  goToHome = () => {
+    
   }
 
   handleChange = (array) => {
@@ -167,7 +170,8 @@ export default class App extends Component {
           changeMinPrice: this.changeMinPrice,
           changeMaxPrice: this.changeMaxPrice,
           filterPrice: this.filterPrice,
-          resetPrice: this.resetPrice
+          resetPrice: this.resetPrice,
+          setUser: this.setUser
         }}
       >
         <Router ref={this.routerRef}>
@@ -215,10 +219,6 @@ export default class App extends Component {
 
                 <div class="navbar-dropdown is-link">
                     {DropDownPerGender(this.handleChange)}
-                    {/* <hr class="dropdown-divider"></hr>
-                    {DropDownPerGender(this.handleChange)}
-                    <hr class="dropdown-divider"></hr>
-                    {DropDownPerGender(this.handleChange)} */}
                 </div>
               </div>
 
@@ -232,43 +232,8 @@ export default class App extends Component {
                   </span>
                 </Link>
 
-
-                  {/* <div class="navbar-item" style={{width: '150px'}}>
-                  <input class="input is-link" type="text" placeholder= "min price"
-                  onChange={(e) => this.setState({minprice: e.target.value})}/>
-                  </div>
-
-                  <div class="navbar-item" style={{width: '150px'}}>
-                  <input class="input is-link" type="text" placeholder="max price"
-                  onChange={(e) => this.setState({maxprice: e.target.value})}/>
-                  </div>  
-
-                  <div class="navbar-item">
-                    <button class="button is-link is-outlined"onClick={() => {this.setState({products: filterByPrice(this.state.minprice, this.state.maxprice,this.state.initialProducts)}); console.log(window.location.href)}}>
-                      Filter
-                    </button>
-                  </div> 
-
-                  <div class="navbar-item">
-                    <button class="button is-link is-outlined"onClick={() => 
-                      {
-                        this.setState({products: this.state.initialProducts, minprice: -1, maxprice: -1});
-                        const allInputs = document.querySelectorAll(".input");
-                        console.log(allInputs);
-
-                        for (const element of allInputs){
-                          console.log(element);
-                          element.value= ""
-                        }
-                      }}>
-                      Reset
-                    </button>
-                  </div>  */}
-             
-                
-
                 <div class="navbar-end">
-                {!this.state.user ? (
+                {!localStorage.getItem('access_token') && !this.state.user ? (
                   <Link to="/login" className="navbar-item">
                     Login
                   </Link>

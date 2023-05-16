@@ -5,6 +5,8 @@ import withContext from "../withContext";
 const ForYou = props => {
   const { products } = props.context;
 
+  let acc = localStorage.getItem("user")
+
    
   return (
     <Fragment>
@@ -23,7 +25,7 @@ const ForYou = props => {
             </div>
             <hr class="is-divider" style={{height: '5px', backgroundColor: '#3273dc'}}></hr>
         <div className="column columns is-multiline">
-          {products && products.length ? (
+          {products && products.length && (
             products.map((product, index) => (
               <ProductItem
                 product={product}
@@ -32,14 +34,11 @@ const ForYou = props => {
                 viewProduct={props.context.viewProduct}
               />
             ))
-          ) : (
-            <div className="column" style={{height: '100vh'}}>
-              <span className="title has-text-grey-light">
-                Please choose a category
-              </span>
-            </div>
           )}
         </div>
+
+        {acc && 
+        <>
         <hr class="is-divider" style={{height: '5px', backgroundColor: '#3273dc'}}></hr>
         <div className="container" style={{backgroundColor: '#f0f8ff'}}>
                 <div className="has-text-centered is-size-4">
@@ -92,9 +91,14 @@ const ForYou = props => {
             </div>
           )}
         </div>
+          </>
+        }
+
+          
 
 
       </div>
+          
     </Fragment>
   );
 };

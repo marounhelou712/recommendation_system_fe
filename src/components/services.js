@@ -19,6 +19,8 @@ export async function handleLOGIN(user, password) {
     .then(response => response.json())
     .then(data => {
         localStorage.setItem('access_token', data.id_token);
+        localStorage.setItem('user', data.userID);
+        
     }
     );
     } catch(err) {
@@ -149,27 +151,6 @@ export const colorToBackgroundColor = (color) => {
   }
 
 
-  // const listOfCategoryPerGender = (category) => {
-  //   let res = [];
-  
-  //   for (const element of category){
-  //     if (element.product_created_for === gender){
-  //       res.push(element)
-  //     }
-  //   }
-  //   return res;
-  // }
-  
-  // const isCategoryForThisGender = (category) => {
-  //   for (const element of category){
-  //     if (element.product_created_for === gender){
-  //       return true;
-  //     }
-  //   }
-  
-  //   return false;
-  // }
-
   export const filterByPrice = (minPrice, maxPrice, category) => {
     if (minPrice === "" || maxPrice === "" || minPrice === -1 || maxPrice === -1){
       return category
@@ -224,22 +205,11 @@ export const colorToBackgroundColor = (color) => {
   
   
   export const DropDownPerGender = (handleChange) => {
-    return (
-      // <div class="nested dropdown">
-      //     <a class="navbar-item">
-      //       <span class="icon-text ">
-      //         {/* <span>{gender}</span> */}
-      //         <span class="icon">
-      //           <i class="fas fa-arrow-right"/>
-      //         </span>
-      //       </span>
-      //     </a>
-  
+    return (  
         <div class="dropdown" id="dropdown" role="menu">
           <div class="dropdown-content">
               {showAllInDropDown(handleChange)}
           </div>
         </div>
-      // {/* </div> */}
     )
   }
