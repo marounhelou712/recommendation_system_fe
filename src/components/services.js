@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import * as all from './listOfAllProducts'
+import { listOfAllProducts } from "./oneList";
 
 export async function handleLOGIN(user, password) {
     const requestOptions = {
@@ -28,7 +29,7 @@ export async function handleLOGIN(user, password) {
     }
 }
 
-export async function getBestSeller() {
+export async function getBestSeller(setBestSeller) {
   const requestOptions = {
     method: 'GET',
     headers: { 'Content-Type': 'application/json; charset=utf-8', 
@@ -37,10 +38,10 @@ export async function getBestSeller() {
     }
   }
 
-  fetch('http:localhost:8080/api/bestSeller', requestOptions)
-  .then(response => response.json)
+  fetch('http://localhost:8080/api/bestSeller', requestOptions)
+  .then(response => response.json())
   .then(data => {
-    console.log(data)}
+    setBestSeller(data)}
     )
 };
 
@@ -228,4 +229,22 @@ export const colorToBackgroundColor = (color) => {
           </div>
         </div>
     )
+  }
+
+
+  export const getProductFromProductID = (productID) => {
+    const product = listOfAllProducts.find(element => element.product_id.toString() === productID);
+    console.log(product);
+    return product;
+    
+  }
+
+
+  export const getProductFromListProductID = (listOfID) => {
+    let res = []
+    for (const i in listOfID){
+      res.push(getProductFromProductID(listOfID[i]))
+    }
+
+    return res;
   }

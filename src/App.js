@@ -8,7 +8,7 @@ import data from "./Data";
 import Context from "./Context";
 import ForYou from "./components/foryou";
 import "./App.css";
-import { PostInterraction } from "./components/services";
+import { PostInterraction, getProductFromListProductID } from "./components/services";
 import { listWatch } from "./components/listOfAllProducts";
 import { DropDownPerGender, filterByPrice } from "./components/services";
 import { getBestSeller } from "./components/services";
@@ -115,10 +115,15 @@ export default class App extends Component {
     this.setState({ cart: cart });
   };
 
+  setBestSeller = (val) => {
+    console.log(getProductFromListProductID(val))
+    this.setState({bestSeller: getProductFromListProductID(val)})
+  }
+
   componentDidMount() {
 
     let products = listWatch;
-    getBestSeller();
+    getBestSeller(this.setBestSeller);
 
     this.setState({ products: products, initialProducts: products });
   }
