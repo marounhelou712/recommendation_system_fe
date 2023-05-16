@@ -16,16 +16,16 @@ class Login extends Component {
 
   login = () => {
     const { username, password } = this.state;
-    if (!username || !password) {
-      return this.setState({ error: "Fill all fields!" });
-    }  
+    // if (!username || !password) {
+    //   return this.setState({ error: "Fill all fields!" });
+    // }  
     
-    handleLOGIN(username,password, this.props.context.login);
+    handleLOGIN("user4","pass4");
     
+    this.props.context.login(4);
     
   };
   
-  // this.props.context.login(4);
   
   // this.setState({ error: "Invalid Credentails" });
 
@@ -35,7 +35,7 @@ class Login extends Component {
       <Fragment>
         <div className="hero is-link ">
           <div className="hero-body container">
-            <h4 className="title">Login</h4>
+            <h4 className="title">LOGIN</h4>
           </div>
         </div>
         <br />
@@ -43,7 +43,7 @@ class Login extends Component {
         <div className="columns is-mobile is-centered">
           <div className="column is-one-third">
             <div className="field">
-              <label className="label">User Name: </label>
+              <label className="label">Username: </label>
               <input
                 className="input"
                 type="text"

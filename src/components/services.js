@@ -3,7 +3,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import * as all from './listOfAllProducts'
 import { listOfAllProducts } from "./oneList";
 
-export async function handleLOGIN(user, password, loginFunction) {
+export async function handleLOGIN(user, password) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json; charset=utf-8', 
@@ -21,8 +21,6 @@ export async function handleLOGIN(user, password, loginFunction) {
     .then(data => {
         localStorage.setItem('access_token', data.id_token);
         localStorage.setItem('user', data.userID);
-        loginFunction(data.userID)
-        
     }
     );
     } catch(err) {
@@ -43,6 +41,23 @@ export async function getBestSeller(setBestSeller) {
   .then(response => response.json())
   .then(data => {
     setBestSeller(data)}
+    )
+};
+
+export async function getCollaborativeFiltering(accessToken, setCollabFilter) {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json; charset=utf-8', 
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:3000',
+    'Authorization': 'Bearer ' + accessToken,
+    }
+  }
+  console.log("in collab");
+  fetch('http://localhost:8080/api/recommendationCF', requestOptions)
+  .then(response => response.json())
+  .then(data => {
+    setCollabFilter(data)}
     )
 };
 
@@ -204,11 +219,11 @@ export const colorToBackgroundColor = (color) => {
       {showInDropDown(all.listShoes, handleChange)}
       {showInDropDown(all.listShorts, handleChange)}
       {showInDropDown(all.listSkirt, handleChange)}
-      {/* {showInDropDown(all.listSuit, handleChange)}
+      {showInDropDown(all.listSuit, handleChange)}
       {showInDropDown(all.listTop, handleChange)}
       {showInDropDown(all.listTshirt, handleChange)}
       {showInDropDown(all.listWallet, handleChange)}
-      {showInDropDown(all.listWatch, handleChange)} */}
+      {showInDropDown(all.listWatch, handleChange)}
       </>
     )
   }
@@ -226,8 +241,7 @@ export const colorToBackgroundColor = (color) => {
 
 
   export const getProductFromProductID = (productID) => {
-    const product = listOfAllProducts.find(element => element.product_id.toString() === productID);
-    console.log(product);
+    const product = listOfAllProducts.find(element => element.product_id.toString() === productID.toString());
     return product;
     
   }

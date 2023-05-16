@@ -4,11 +4,10 @@ import Login from "./components/Login";
 import ProductList from "./components/ProductList";
 import AddProduct from "./components/AddProduct";
 import Cart from "./components/Cart";
-import data from "./Data";
 import Context from "./Context";
 import ForYou from "./components/foryou";
 import "./App.css";
-import { PostInterraction, getProductFromListProductID } from "./components/services";
+import { PostInterraction, getCollaborativeFiltering, getProductFromListProductID } from "./components/services";
 import { listWatch } from "./components/listOfAllProducts";
 import { DropDownPerGender, filterByPrice } from "./components/services";
 import { getBestSeller } from "./components/services";
@@ -21,10 +20,10 @@ export default class App extends Component {
       cart: [],
       initialProducts: [],
       products: [],
-      Recomemnded1: [],
-      Recomemnded2: [],
-      Recomemnded3: [],
-      bestSeller: listWatch,
+      Recommended1: [],
+      Recommended2: [],
+      Recommended3: [],
+      bestSeller: [],
       category: "Our Products",
       minprice: "",
       maxprice: ""
@@ -32,21 +31,33 @@ export default class App extends Component {
 
     this.routerRef = React.createRef();
   }
+
+  setRecommendation1 = (val) => {
+    console.log(getProductFromListProductID(val))
+    this.setState({ Recommended1: getProductFromListProductID(val) });
+    localStorage.setItem("rec1", JSON.stringify(getProductFromListProductID(val)))
+  }
+
   login = (data) => {
     this.setState({ user: data });
     localStorage.setItem('user', data);
+    setTimeout(() => {
+      let acc = localStorage.getItem("access_token");
+      getCollaborativeFiltering(acc, this.setRecommendation1);
+    },1000)
   };
 
   setUser = () => {
-    this.setState({user: 4})
-  }
+    this.setState({user: 4});
+  };
 
   logout = e => {
     e.preventDefault();
     this.setState({ user: null, cart: [] });
     localStorage.removeItem("user");
     localStorage.removeItem("access_token");
-    window.location.pathname = "/home"
+    localStorage.removeItem("rec1");
+    window.location.pathname = "/home";
   };
 
   addProduct = (product, callback) => {
@@ -101,7 +112,7 @@ export default class App extends Component {
     cart.map(p => {
       PostInterraction(acc, p.product_id, p.product_name, p.product_category, 
         p.product_brand, p.product_created_for, p.price, p.product_description, p.product_color,
-        suer, "purchase", 3);
+        user, "purchase", 3);
     });
     this.clearCart();}
     else{
@@ -126,9 +137,15 @@ export default class App extends Component {
   componentDidMount() {
 
     let products = listWatch;
-    // getBestSeller(this.setBestSeller);
+    getBestSeller(this.setBestSeller);
 
-    this.setBestSeller(['703','1591','1592','3201','3250','4410'])
+    let CF = localStorage.getItem("rec1");
+    if (CF){
+      this.setState({ Recommended1: JSON.parse(CF) });
+
+    }
+
+    // this.setBestSeller(['703','1591','1592','3201','3250','4410'])
     // this.setState({ products: products, initialProducts: products });
   }
 

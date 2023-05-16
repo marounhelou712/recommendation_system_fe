@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import ProductItem from "./ProductItem";
 import withContext from "../withContext";
 
@@ -7,12 +7,12 @@ const ForYou = props => {
 
   let user = localStorage.getItem("user")
 
-   
+  console.log(Recommended1);
   return (
     <Fragment>
-      <div className="hero is-link">
+      <div className="hero is-small is-link">
         <div className="hero-body container">
-          <h4 className="title">Products You Might Like</h4>
+          <h3 className="title">YOU NAVIGATE, WE RECOMMEND, YOU CHOOSE...</h3>
         </div>
       </div>
       <br />
@@ -41,8 +41,8 @@ const ForYou = props => {
         <>
         <hr class="is-divider" style={{height: '5px', backgroundColor: '#3273dc'}}></hr>
         <div className="container" style={{backgroundColor: '#f0f8ff'}}>
-                <div className="has-text-centered is-size-4">
-                    Based on similar users
+                <div className="has-text-centered is-size-4 has-text-weight-semibold	">
+                    PEOPLE SIMILAR TO YOU LIKE THAT
                 </div>
         </div>
         <hr class="is-divider" style={{height: '5px', backgroundColor: '#3273dc'}}></hr>
@@ -59,8 +59,8 @@ const ForYou = props => {
             ))
           ) : (
             <div className="column" style={{height: '100vh'}}>
-              <span className="title has-text-grey-light">
-                Please choose a category
+              <span className="title has-text-grey-light is-center">
+                Retrieving the best products for you...
               </span>
             </div>
           )}
