@@ -3,7 +3,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import * as all from './listOfAllProducts'
 import { listOfAllProducts } from "./oneList";
 
-export async function handleLOGIN(user, password) {
+export async function handleLOGIN(user, password, loginFunction) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json; charset=utf-8', 
@@ -21,6 +21,7 @@ export async function handleLOGIN(user, password) {
     .then(data => {
         localStorage.setItem('access_token', data.id_token);
         localStorage.setItem('user', data.userID);
+        loginFunction(data.userID)
         
     }
     );
@@ -47,19 +48,12 @@ export async function getBestSeller(setBestSeller) {
 
 
 export async function PostInterraction(
-    accessToken,
-    product_id, 
-    product_name, 
-    product_category, 
-    product_brand,
-    product_created_for,
-    price,
-    product_description,
-    product_color,
-    user_id,
-    user_gender,
-    event_type,
-    event_id
+    accessToken, product_id, 
+    product_name, product_category, 
+    product_brand, product_created_for,
+    price, product_description,
+    product_color, user_id,
+    event_type, event_id
     ) {
     const requestOptions = {
         method: 'POST',
@@ -78,7 +72,6 @@ export async function PostInterraction(
             product_description: product_description,
             product_color: product_color,
             user_id: user_id,
-            user_gender: user_gender,
             event_type: event_type,
             event_id: event_id
         })
@@ -211,11 +204,11 @@ export const colorToBackgroundColor = (color) => {
       {showInDropDown(all.listShoes, handleChange)}
       {showInDropDown(all.listShorts, handleChange)}
       {showInDropDown(all.listSkirt, handleChange)}
-      {showInDropDown(all.listSuit, handleChange)}
+      {/* {showInDropDown(all.listSuit, handleChange)}
       {showInDropDown(all.listTop, handleChange)}
       {showInDropDown(all.listTshirt, handleChange)}
       {showInDropDown(all.listWallet, handleChange)}
-      {showInDropDown(all.listWatch, handleChange)}
+      {showInDropDown(all.listWatch, handleChange)} */}
       </>
     )
   }

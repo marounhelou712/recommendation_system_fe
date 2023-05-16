@@ -3,9 +3,9 @@ import ProductItem from "./ProductItem";
 import withContext from "../withContext";
 
 const ForYou = props => {
-  const { bestSeller, products } = props.context;
+  const { bestSeller, Recommended1, Recommended2, Recommended3 } = props.context;
 
-  let acc = localStorage.getItem("user")
+  let user = localStorage.getItem("user")
 
    
   return (
@@ -19,7 +19,7 @@ const ForYou = props => {
       <div className="container">
             <div className="container" style={{backgroundColor: '#f0f8ff'}}>
                 <div className="has-text-centered is-size-4 has-text-weight-semibold	">
-                    BEST SELLERS
+                    BEST SELLERS / TRENDING PRODUCTS
                 </div>
                 
             </div>
@@ -37,7 +37,7 @@ const ForYou = props => {
           )}
         </div>
 
-        {acc && 
+        {user && 
         <>
         <hr class="is-divider" style={{height: '5px', backgroundColor: '#3273dc'}}></hr>
         <div className="container" style={{backgroundColor: '#f0f8ff'}}>
@@ -48,8 +48,8 @@ const ForYou = props => {
         <hr class="is-divider" style={{height: '5px', backgroundColor: '#3273dc'}}></hr>
 
         <div className="column columns is-multiline">
-          {products && products.length ? (
-            products.map((product, index) => (
+          {Recommended1 && Recommended1.length ? (
+            Recommended1.map((product, index) => (
               <ProductItem
                 product={product}
                 key={index}
@@ -74,8 +74,8 @@ const ForYou = props => {
         </div>
         <hr class="is-divider" style={{height: '5px', backgroundColor: '#3273dc'}}></hr>
         <div className="column columns is-multiline">
-          {products && products.length ? (
-            products.map((product, index) => (
+          {Recommended2 && Recommended3.length ? (
+            Recommended1.map((product, index) => (
               <ProductItem
                 product={product}
                 key={index}

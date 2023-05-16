@@ -21,6 +21,9 @@ export default class App extends Component {
       cart: [],
       initialProducts: [],
       products: [],
+      Recomemnded1: [],
+      Recomemnded2: [],
+      Recomemnded3: [],
       bestSeller: listWatch,
       category: "Our Products",
       minprice: "",
@@ -55,45 +58,50 @@ export default class App extends Component {
 
   viewProduct = product => {
     let acc = localStorage.getItem("access_token");
+    let user = localStorage.getItem("user");
 
     if (acc) {
       PostInterraction(acc, product.product.product_id, product.product.product_name, product.product.product_category, 
-        product.product.product_brand, product.product.product_created_for, product.product.price, product.product.product_description, product.product.product_color,
-        5, "Male", "view", 1);
+        product.product.product_brand, product.product.product_created_for, product.product.price, 
+        product.product.product_description, product.product.product_color, user, "view", 1);
     }
   }
-
-///api/userId
   
   addToCart = cartItem => {
     let acc = localStorage.getItem("access_token");
+    let user = localStorage.getItem("user");
 
+    let cart = this.state.cart;
+    cart.push(cartItem.product);
+    localStorage.setItem("cart", cart);
+    this.setState({ cart: cart });
     if (acc) {
-      let cart = this.state.cart;
-      cart.push(cartItem.product);
-      localStorage.setItem("cart", cart);
-      this.setState({ cart: cart });
 
-      PostInterraction(acc, cartItem.product.product_id, cartItem.product.product_name, cartItem.product.product_category, 
-        cartItem.product.product_brand, cartItem.product.product_created_for, cartItem.product.price, cartItem.product.product_description, cartItem.product.product_color,
-        5, "Male", "add to cart", 2);
+      // PostInterraction(acc, cartItem.product.product_id, cartItem.product.product_name, cartItem.product.product_category, 
+      //   cartItem.product.product_brand, cartItem.product.product_created_for, cartItem.product.price, 
+      //   cartItem.product.product_description, cartItem.product.product_color,user, "add to cart", 2);
 
     } else {
       this.routerRef.current.history.push("/login");
     }
   };
 
+  clearCart = () => {
+    let cart = [];
+    localStorage.setItem("cart", JSON.stringify(cart));
+    this.setState({ cart: cart });
+  };
+
   checkout = () => {
     let acc = localStorage.getItem("access_token");
-    console.log("in checkout")
+    let user = localStorage.getItem("user");
     if (acc) {
     let cart = this.state.cart;
     console.log(cart);
     cart.map(p => {
-      console.log(p)
       PostInterraction(acc, p.product_id, p.product_name, p.product_category, 
         p.product_brand, p.product_created_for, p.price, p.product_description, p.product_color,
-        5, "Male", "purchase", 3);
+        suer, "purchase", 3);
     });
     this.clearCart();}
     else{
@@ -109,11 +117,6 @@ export default class App extends Component {
     this.setState({ cart })
   }
 
-  clearCart = () => {
-    let cart = [];
-    localStorage.setItem("cart", JSON.stringify(cart));
-    this.setState({ cart: cart });
-  };
 
   setBestSeller = (val) => {
     console.log(getProductFromListProductID(val))
@@ -123,9 +126,10 @@ export default class App extends Component {
   componentDidMount() {
 
     let products = listWatch;
-    getBestSeller(this.setBestSeller);
+    // getBestSeller(this.setBestSeller);
 
-    this.setState({ products: products, initialProducts: products });
+    this.setBestSeller(['703','1591','1592','3201','3250','4410'])
+    // this.setState({ products: products, initialProducts: products });
   }
 
   goToHome = () => {
@@ -147,7 +151,6 @@ export default class App extends Component {
   }
 
   filterPrice = () => {
-    console.log(this.state.minprice)
     this.setState({products: filterByPrice(this.state.minprice, this.state.maxprice,this.state.initialProducts)});
   }
 

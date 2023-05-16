@@ -4,7 +4,6 @@ import CartItem from "./CartItem";
 
 const Cart = props => {
   const { cart } = props.context;
-  // const cartKeys = Object.keys(cart || {});
   return (
     <Fragment>
       <div className="hero is-link">
@@ -18,8 +17,6 @@ const Cart = props => {
           <div className="column columns is-multiline">
             {cart.map((item, index) => (
               <CartItem
-                // cartKey={key}
-                // key={key}
                 cartItem={item}
                 index={index}
                 removeFromCart={props.context.removeFromCart}

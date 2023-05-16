@@ -1,30 +1,11 @@
 import React from "react";
-import { PostInterraction } from "./services";
 import { colorToBackgroundColor } from "./services";
 
-
-    // {
-    //   "product_id": 904,
-    //   "product_name": "Raymond Men Maroon Woven-Design Single-Breasted Bandhgala",
-    //   "product_category": "Bandhgala",
-    //   "category_id": "",
-    //   "product_brand": "Raymond",
-    //   "product_created_for": "Male",
-    //   "price": 35.99,
-    //   "product_description": "Maroon self-design single breasted bandhgala blazer, has a mandarin collar, full button placket, long sleeves, three pockets and a double vented hem",
-    //   "product_color": "Maroon"
-    // },
 
 const ProductItem = props => {
   const { product } = props;
 
   const [view, setView] = React.useState(false);
-
-  // const handleAddToCart = () => {
-  //   PostInterraction(access_token, product.product_id, product.product_name, product.product_category, 
-  //     product.product_brand, product.product_created_for, product.price, product.product_description, product.product_color,
-  //     5, "Male", "add to cart", 2);
-  // }
   
   return (
     <div className=" column is-half" >
@@ -66,10 +47,6 @@ const ProductItem = props => {
               >
                 Add to Cart
               </button>
-
-              {/* <button onClick={(e) => setView(true)} className="button is-small is-link is-light is-outlined is-pulled-right">
-              {view ? "close": "view"}
-              </button> */}
             </div>
           </div>
         </div>

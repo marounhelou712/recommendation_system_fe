@@ -16,17 +16,18 @@ class Login extends Component {
 
   login = () => {
     const { username, password } = this.state;
-    // if (!username || !password) {
-    //   return this.setState({ error: "Fill all fields!" });
-    // }  
+    if (!username || !password) {
+      return this.setState({ error: "Fill all fields!" });
+    }  
     
-    handleLOGIN("user4", "pass4");
-    this.props.context.login(4);
-
-    // this.setState({ error: "Invalid Credentails" });
-
+    handleLOGIN(username,password, this.props.context.login);
+    
+    
   };
-
+  
+  // this.props.context.login(4);
+  
+  // this.setState({ error: "Invalid Credentails" });
 
 
   render() {
