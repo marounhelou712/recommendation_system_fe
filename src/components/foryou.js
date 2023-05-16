@@ -3,7 +3,7 @@ import ProductItem from "./ProductItem";
 import withContext from "../withContext";
 
 const ForYou = props => {
-  const { products } = props.context;
+  const { bestSeller, products } = props.context;
 
   let acc = localStorage.getItem("user")
 
@@ -25,8 +25,8 @@ const ForYou = props => {
             </div>
             <hr class="is-divider" style={{height: '5px', backgroundColor: '#3273dc'}}></hr>
         <div className="column columns is-multiline">
-          {products && products.length && (
-            products.map((product, index) => (
+          {bestSeller && bestSeller.length && (
+            bestSeller.map((product, index) => (
               <ProductItem
                 product={product}
                 key={index}

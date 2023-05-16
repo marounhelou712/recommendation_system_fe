@@ -11,6 +11,7 @@ import "./App.css";
 import { PostInterraction } from "./components/services";
 import { listWatch } from "./components/listOfAllProducts";
 import { DropDownPerGender, filterByPrice } from "./components/services";
+import { getBestSeller } from "./components/services";
 
 export default class App extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export default class App extends Component {
       cart: [],
       initialProducts: [],
       products: [],
+      bestSeller: listWatch,
       category: "Our Products",
       minprice: "",
       maxprice: ""
@@ -116,6 +118,7 @@ export default class App extends Component {
   componentDidMount() {
 
     let products = listWatch;
+    getBestSeller();
 
     this.setState({ products: products, initialProducts: products });
   }

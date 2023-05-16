@@ -28,6 +28,22 @@ export async function handleLOGIN(user, password) {
     }
 }
 
+export async function getBestSeller() {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json; charset=utf-8', 
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:3000'
+    }
+  }
+
+  fetch('http:localhost:8080/api/bestSeller', requestOptions)
+  .then(response => response.json)
+  .then(data => {
+    console.log(data)}
+    )
+};
+
 
 export async function PostInterraction(
     accessToken,
@@ -172,7 +188,7 @@ export const colorToBackgroundColor = (color) => {
            }}
         class="dropdown-item">
           {category[0].product_category}
-        </a>
+        </a> 
       </Link>
     );
   }
