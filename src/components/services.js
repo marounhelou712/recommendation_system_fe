@@ -61,6 +61,23 @@ export async function getCollaborativeFiltering(accessToken, setCollabFilter) {
     )
 };
 
+export async function getNeuralNetwork(accessToken, setNeuralNetwork){
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json; charset=utf-8', 
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:3000',
+    'Authorization': 'Bearer ' + accessToken,
+    }
+  }
+  console.log("in collab");
+  fetch('http://localhost:8080/api/recommendationNN', requestOptions)
+  .then(response => response.json())
+  .then(data => {
+    setNeuralNetwork(data)}
+    )
+}
+
 
 export async function PostInterraction(
     accessToken, product_id, 
@@ -82,7 +99,6 @@ export async function PostInterraction(
             product_name: product_name,
             product_category: product_category,
             product_brand: product_brand,
-            product_created_for: product_created_for,
             price: price,
             product_description: product_description,
             product_color: product_color,
@@ -175,6 +191,16 @@ export const colorToBackgroundColor = (color) => {
     }
   }
 
+  export const getBrandsFromCategory = (category) => {
+    let res = []
+
+    for (const element of category){
+      res.push(element.product_brand)
+    }
+
+    res = [...new Set(res)]
+    return res;
+  }
 
   export const filterByPrice = (minPrice, maxPrice, category) => {
     if (minPrice === "" || maxPrice === "" || minPrice === -1 || maxPrice === -1){
@@ -186,8 +212,26 @@ export const colorToBackgroundColor = (color) => {
         res.push(element);
       }
     }
+    res.sort(function(a, b) {
+      return a.price - b.price;
+    });
     return res;
   }
+
+  export const filterByBrand = (brand, category) => {
+    if (brand === "" || brand === "All Brands" || brand === undefined || brand === null){
+      return category;
+    }
+
+    let res = []
+    for (const element of category){
+      if (element.product_brand === brand) {
+        res.push(element);
+      }
+    }
+    return res;
+  }
+
   
   const showInDropDown = (category, handleChange) => {
     return (

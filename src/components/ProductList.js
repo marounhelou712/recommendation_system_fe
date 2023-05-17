@@ -1,9 +1,11 @@
 import React, { Fragment } from "react";
 import ProductItem from "./ProductItem";
 import withContext from "../withContext";
+import { getBrandsFromCategory } from "./services";
 
 const ProductList = props => {
-  const { products, category } = props.context;
+  const { products, category, initialProducts } = props.context;
+  let brands = getBrandsFromCategory(initialProducts);
   return (
     <Fragment>
       <div className="hero is-link">
@@ -14,6 +16,20 @@ const ProductList = props => {
       <br />
       <div className="container">
         <div className="navbar-end" style={{backgroundColor: '#f0f8ff'}}>
+        <div class="navbar-item" style={{width: '200px'}}>
+        <div class="select is-link is-outlined">
+          <select value={props.context.brand} onChange={(e) => props.context.filterBrand(e.target.value)}>
+            <option value="All Brands">All Brands</option>
+            {
+              brands.map((brand, index) => {
+                return(
+                  <option key={index} value={brand}>{brand}</option>
+                )
+              })
+            }
+          </select>
+        </div>
+        </div>
         <div class="navbar-item" style={{width: '150px'}}>
           <input class="input is-link has-text-grey-light	" type="text" placeholder= "min. price"
           onChange={(e) => {props.context.changeMinPrice(e.target.value)}}/>
@@ -32,7 +48,7 @@ const ProductList = props => {
           </div> 
 
           <div class="navbar-item">
-            <button class="button is-link is-outlined"onClick={() => props.context.resetPrice()}>
+            <button class="button is-link is-outlined"onClick={() => props.context.reset()}>
               Reset
             </button>
           </div> 

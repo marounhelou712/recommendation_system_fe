@@ -7,7 +7,7 @@ import Cart from "./components/Cart";
 import Context from "./Context";
 import ForYou from "./components/foryou";
 import "./App.css";
-import { PostInterraction, getCollaborativeFiltering, getProductFromListProductID } from "./components/services";
+import { PostInterraction, getCollaborativeFiltering, getProductFromListProductID, getContentBased, getNeuralNetwork, filterByBrand } from "./components/services";
 import { listWatch } from "./components/listOfAllProducts";
 import { DropDownPerGender, filterByPrice } from "./components/services";
 import { getBestSeller } from "./components/services";
@@ -22,11 +22,11 @@ export default class App extends Component {
       products: [],
       Recommended1: [],
       Recommended2: [],
-      Recommended3: [],
       bestSeller: [],
       category: "Our Products",
       minprice: "",
-      maxprice: ""
+      maxprice: "",
+      brand: ""
     };
 
     this.routerRef = React.createRef();
@@ -38,17 +38,26 @@ export default class App extends Component {
     localStorage.setItem("rec1", JSON.stringify(getProductFromListProductID(val)))
   }
 
+  setRecommendation2 = (val) => {
+    console.log(getProductFromListProductID(val))
+    this.setState({ Recommended2: getProductFromListProductID(val) });
+    localStorage.setItem("rec2", JSON.stringify(getProductFromListProductID(val)))
+  }
+
+  setRecommendation3 = (val) => {
+    console.log(getProductFromListProductID(val))
+    this.setState({ Recommended3: getProductFromListProductID(val) });
+    localStorage.setItem("rec3", JSON.stringify(getProductFromListProductID(val)))
+  }
+
   login = (data) => {
     this.setState({ user: data });
     localStorage.setItem('user', data);
     setTimeout(() => {
       let acc = localStorage.getItem("access_token");
-      getCollaborativeFiltering(acc, this.setRecommendation1);
+      // getCollaborativeFiltering(acc, this.setRecommendation1);
+      // getNeuralNetwork(acc,this.setRecommendation2)
     },1000)
-  };
-
-  setUser = () => {
-    this.setState({user: 4});
   };
 
   logout = e => {
@@ -57,7 +66,12 @@ export default class App extends Component {
     localStorage.removeItem("user");
     localStorage.removeItem("access_token");
     localStorage.removeItem("rec1");
+    localStorage.removeItem("rec2");
     window.location.pathname = "/home";
+  };
+
+  setUser = () => {
+    this.setState({user: 4});
   };
 
   addProduct = (product, callback) => {
@@ -73,7 +87,7 @@ export default class App extends Component {
 
     if (acc) {
       PostInterraction(acc, product.product.product_id, product.product.product_name, product.product.product_category, 
-        product.product.product_brand, product.product.product_created_for, product.product.price, 
+        product.product.product_brand, product.product.price, 
         product.product.product_description, product.product.product_color, user, "view", 1);
     }
   }
@@ -89,7 +103,7 @@ export default class App extends Component {
     if (acc) {
 
       // PostInterraction(acc, cartItem.product.product_id, cartItem.product.product_name, cartItem.product.product_category, 
-      //   cartItem.product.product_brand, cartItem.product.product_created_for, cartItem.product.price, 
+      //   cartItem.product.product_brand, cartItem.product.price, 
       //   cartItem.product.product_description, cartItem.product.product_color,user, "add to cart", 2);
 
     } else {
@@ -111,7 +125,7 @@ export default class App extends Component {
     console.log(cart);
     cart.map(p => {
       PostInterraction(acc, p.product_id, p.product_name, p.product_category, 
-        p.product_brand, p.product_created_for, p.price, p.product_description, p.product_color,
+        p.product_brand, p.price, p.product_description, p.product_color,
         user, "purchase", 3);
     });
     this.clearCart();}
@@ -134,20 +148,26 @@ export default class App extends Component {
     this.setState({bestSeller: getProductFromListProductID(val)})
   }
 
+  // let products = listWatch;
+
   componentDidMount() {
 
-    let products = listWatch;
-    getBestSeller(this.setBestSeller);
+    // getBestSeller(this.setBestSeller);
 
     let CF = localStorage.getItem("rec1");
+    let NN = localStorage.getItem("rec2");
     if (CF){
       this.setState({ Recommended1: JSON.parse(CF) });
-
     }
+    if (NN){
+      this.setState({ Recommended2: JSON.parse(NN) });
+    }
+    this.setBestSeller(['703','1591','1592','3201','3250','4410']);
+    this.setRecommendation1(['302','704', '1595', '3206', '3250', '4415'])
+    this.setRecommendation2(['505','805', '1600', '3210', '3250', '4500'])
 
-    // this.setBestSeller(['703','1591','1592','3201','3250','4410'])
-    // this.setState({ products: products, initialProducts: products });
   }
+  // this.setState({ products: products, initialProducts: products });
 
   goToHome = () => {
     
@@ -155,8 +175,13 @@ export default class App extends Component {
 
   handleChange = (array) => {
     let productList = array;
+    let minPrice = this.state.minprice;
+    let maxPrice = this.state.maxprice;
+    this.resetBrand();
     let category = array[0].product_category;
-    this.setState({ products: productList, initialProducts: productList, category: category});
+    this.setState({ products: filterByPrice(minPrice, maxPrice, productList), initialProducts: productList, category: category});
+    // this.setState({ products: productList, initialProducts: productList, category: category});
+
   }
 
   changeMinPrice = value => {
@@ -168,7 +193,20 @@ export default class App extends Component {
   }
 
   filterPrice = () => {
+    let actualbrand = this.state.brand;
+    if (actualbrand){
+      this.setState({products: filterByPrice(this.state.minprice, this.state.maxprice,this.state.products)});
+    }
     this.setState({products: filterByPrice(this.state.minprice, this.state.maxprice,this.state.initialProducts)});
+  }
+
+  filterBrand = (brand) => {
+    let minprice = this.state.minprice;
+    let maxprice = this.state.maxprice;
+    if (minprice === "" || maxprice === "" || minprice === -1 || maxprice === -1){
+      this.setState({products: filterByBrand(brand,this.state.initialProducts), brand: brand})
+    }
+    this.setState({products: filterByBrand(brand,this.state.products) ,brand: brand})
   }
 
   resetPrice = () => {
@@ -182,7 +220,15 @@ export default class App extends Component {
     }
   }
 
-//(/api/bestSeller)
+  resetBrand = () => {
+    this.setState({brand: ""})
+  }
+
+  reset = () =>{
+    this.resetBrand();
+    this.resetPrice();
+  }
+
   render() {
     return (
       <Context.Provider
@@ -199,7 +245,10 @@ export default class App extends Component {
           changeMaxPrice: this.changeMaxPrice,
           filterPrice: this.filterPrice,
           resetPrice: this.resetPrice,
-          setUser: this.setUser
+          setUser: this.setUser,
+          filterBrand: this.filterBrand,
+          resetBrand: this.resetBrand,
+          reset: this.reset,
         }}
       >
         <Router ref={this.routerRef}>
