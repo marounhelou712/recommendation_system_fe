@@ -82,7 +82,7 @@ export async function getNeuralNetwork(accessToken, setNeuralNetwork){
 export async function PostInterraction(
     accessToken, product_id, 
     product_name, product_category, 
-    product_brand, product_created_for,
+    product_brand,
     price, product_description,
     product_color, user_id,
     event_type, event_id

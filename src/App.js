@@ -88,7 +88,7 @@ export default class App extends Component {
     if (acc) {
       PostInterraction(acc, product.product.product_id, product.product.product_name, product.product.product_category, 
         product.product.product_brand, product.product.price, 
-        product.product.product_description, product.product.product_color, user, "view", 1);
+        product.product.product_description, product.product.product_color, 1, "view", 1);
     }
   }
   
@@ -102,9 +102,9 @@ export default class App extends Component {
     this.setState({ cart: cart });
     if (acc) {
 
-      // PostInterraction(acc, cartItem.product.product_id, cartItem.product.product_name, cartItem.product.product_category, 
-      //   cartItem.product.product_brand, cartItem.product.price, 
-      //   cartItem.product.product_description, cartItem.product.product_color,user, "add to cart", 2);
+      PostInterraction(acc, cartItem.product.product_id, cartItem.product.product_name, cartItem.product.product_category, 
+        cartItem.product.product_brand, cartItem.product.price, 
+        cartItem.product.product_description, cartItem.product.product_color,1, "add to cart", 2);
 
     } else {
       this.routerRef.current.history.push("/login");
@@ -126,7 +126,7 @@ export default class App extends Component {
     cart.map(p => {
       PostInterraction(acc, p.product_id, p.product_name, p.product_category, 
         p.product_brand, p.price, p.product_description, p.product_color,
-        user, "purchase", 3);
+        1, "purchase", 3);
     });
     this.clearCart();}
     else{
