@@ -5,7 +5,7 @@ import { handleLOGIN } from "./services";
 import { Link } from "react-router-dom";
 
 
-class Login extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,15 +37,24 @@ class Login extends Component {
       <Fragment>
         <div className="hero is-link ">
           <div className="hero-body container">
-            <h4 className="title">LOGIN</h4>
+            <h4 className="title">SIGNUP</h4>
           </div>
         </div>
         <br />
         <br />
-        <div className="columns is-mobile is-centered">
-          <div className="column is-one-third">
+        <div className="columns is-mobile is-centered is-white is-outlined">
+          <div className="column is-one-fifth is-white is-outlined">
             <div className="field">
-              <label className="label">Username: </label>
+              <label className="label">First Name: </label>
+              <input
+                className="input"
+                type="text"
+                name="username"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="field">
+              <label className="label">Gender: </label>
               <input
                 className="input"
                 type="text"
@@ -65,18 +74,47 @@ class Login extends Component {
             {this.state.error && (
               <div className="has-text-danger">{this.state.error}</div>
             )}
+            <Link to="/login" class="button is-ghost is-link is-outlined">
+            Back to login</Link>
+          </div>
+          <div className="column is-one-fifth">
+            <div className="field">
+              <label className="label">Last Name: </label>
+              <input
+                className="input"
+                type="text"
+                name="username"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="field">
+              <label className="label">Username: </label>
+              <select
+                className="input"
+                type="text"
+                name="username"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="field">
+              <label className="label">Confirm Password: </label>
+              <input
+                className="input"
+                type="password"
+                name="password"
+                onChange={this.handleChange}
+              />
+            </div>
+            {this.state.error && (
+              <div className="has-text-danger">{this.state.error}</div>
+            )}
 
             <div className="field is-clearfix">
-            <Link class="button is-ghost is-link is-outlined" 
-            to="/signup">
-              Doesn't have an account? Signup now
-            </Link>
-
             <button
               className="button is-link is-outlined is-pulled-right"
               onClick={this.login}
             >
-                Log In
+                Create Account
               </button>
             </div>
           </div>
@@ -88,4 +126,4 @@ class Login extends Component {
   }
 }
 
-export default withContext(Login);
+export default withContext(SignUp);

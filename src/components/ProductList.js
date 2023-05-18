@@ -31,7 +31,7 @@ const ProductList = props => {
         </div>
         </div>
         <div class="navbar-item" style={{width: '150px'}}>
-          <input class="input is-link has-text-grey-light	" type="text" placeholder= "min. price"
+          <input class="input is-link has-text-grey-light" type="text" placeholder= "min. price"
           onChange={(e) => {props.context.changeMinPrice(e.target.value)}}/>
           </div>
 
@@ -67,7 +67,7 @@ const ProductList = props => {
           ) : (
             <div className="column" style={{height: '100vh'}}>
               <span className="title has-text-grey-light">
-                Please choose a category
+                No Available Items
               </span>
             </div>
           )}

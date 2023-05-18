@@ -6,6 +6,7 @@ import AddProduct from "./components/AddProduct";
 import Cart from "./components/Cart";
 import Context from "./Context";
 import ForYou from "./components/foryou";
+import SignUp from "./components/signup";
 import "./App.css";
 import { PostInterraction, getCollaborativeFiltering, getProductFromListProductID, getContentBased, getNeuralNetwork, filterByBrand } from "./components/services";
 import { listWatch } from "./components/listOfAllProducts";
@@ -26,26 +27,24 @@ export default class App extends Component {
       category: "Our Products",
       minprice: "",
       maxprice: "",
-      brand: ""
+      brand: "",
+      isDropdownOpen: true,
     };
 
     this.routerRef = React.createRef();
   }
 
   setRecommendation1 = (val) => {
-    console.log(getProductFromListProductID(val))
     this.setState({ Recommended1: getProductFromListProductID(val) });
     localStorage.setItem("rec1", JSON.stringify(getProductFromListProductID(val)))
   }
 
   setRecommendation2 = (val) => {
-    console.log(getProductFromListProductID(val))
     this.setState({ Recommended2: getProductFromListProductID(val) });
     localStorage.setItem("rec2", JSON.stringify(getProductFromListProductID(val)))
   }
 
   setRecommendation3 = (val) => {
-    console.log(getProductFromListProductID(val))
     this.setState({ Recommended3: getProductFromListProductID(val) });
     localStorage.setItem("rec3", JSON.stringify(getProductFromListProductID(val)))
   }
@@ -122,7 +121,6 @@ export default class App extends Component {
     let user = localStorage.getItem("user");
     if (acc) {
     let cart = this.state.cart;
-    console.log(cart);
     cart.map(p => {
       PostInterraction(acc, p.product_id, p.product_name, p.product_category, 
         p.product_brand, p.price, p.product_description, p.product_color,
@@ -144,7 +142,6 @@ export default class App extends Component {
 
 
   setBestSeller = (val) => {
-    console.log(getProductFromListProductID(val))
     this.setState({bestSeller: getProductFromListProductID(val)})
   }
 
@@ -193,29 +190,26 @@ export default class App extends Component {
   }
 
   filterPrice = () => {
-    let actualbrand = this.state.brand;
-    if (actualbrand){
-      this.setState({products: filterByPrice(this.state.minprice, this.state.maxprice,this.state.products)});
-    }
-    this.setState({products: filterByPrice(this.state.minprice, this.state.maxprice,this.state.initialProducts)});
+    let brand = this.state.brand;
+
+    let brandFilter = filterByBrand(brand, this.state.initialProducts)
+    this.setState({products: filterByPrice(this.state.minprice, this.state.maxprice,brandFilter)});
+    
   }
 
   filterBrand = (brand) => {
     let minprice = this.state.minprice;
     let maxprice = this.state.maxprice;
-    if (minprice === "" || maxprice === "" || minprice === -1 || maxprice === -1){
-      this.setState({products: filterByBrand(brand,this.state.initialProducts), brand: brand})
-    }
-    this.setState({products: filterByBrand(brand,this.state.products) ,brand: brand})
+
+    let priceFilter = filterByPrice(minprice, maxprice, this.state.initialProducts);
+    this.setState({products: filterByBrand(brand,priceFilter), brand: brand})
   }
 
   resetPrice = () => {
     this.setState({products: this.state.initialProducts, minprice: -1, maxprice: -1});
     const allInputs = document.querySelectorAll(".input");
-    console.log(allInputs);
 
     for (const element of allInputs){
-      console.log(element);
       element.value= ""
     }
   }
@@ -228,6 +222,16 @@ export default class App extends Component {
     this.resetBrand();
     this.resetPrice();
   }
+
+  toggleDropdown = () => {
+    this.setState((prevState) => ({
+      isDropdownOpen: !prevState.isDropdownOpen,
+    }));
+  };
+
+  openDropDown = () => {
+    this.setState({ isDropdownOpen: true })
+  };
 
   render() {
     return (
@@ -289,13 +293,14 @@ export default class App extends Component {
                 Home
               </Link>
 
-                <div class="navbar-item has-dropdown is-hoverable" >
+                <div class="navbar-item has-dropdown is-hoverable"  onMouseEnter={() => this.openDropDown()}>
                 <a class="navbar-link">
                   Products
                 </a>
 
-                <div class="navbar-dropdown is-link">
-                    {DropDownPerGender(this.handleChange)}
+                <div class="navbar-dropdown is-link" 
+                >
+                    { this.state.isDropdownOpen && DropDownPerGender(this.handleChange, this.toggleDropdown)}
                 </div>
               </div>
 
@@ -330,6 +335,7 @@ export default class App extends Component {
               <Route exact path="/add-product" component={AddProduct} />
               <Route exact path="/products" component={ProductList} />
               <Route exact path="/home" component={ForYou}/>
+              <Route exact path="/signup" component={SignUp}/>
             </Switch>
           </div>
         </Router>

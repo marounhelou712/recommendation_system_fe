@@ -233,11 +233,11 @@ export const colorToBackgroundColor = (color) => {
   }
 
   
-  const showInDropDown = (category, handleChange) => {
+  const showInDropDown = (category, handleChange, toggleChange) => {
     return (
       <Link to="/products">
         <a
-        onClick={(e) => {handleChange(category); 
+        onClick={(e) => {handleChange(category); toggleChange()
            }}
         class="dropdown-item">
           {category[0].product_category}
@@ -246,38 +246,38 @@ export const colorToBackgroundColor = (color) => {
     );
   }
   
-  export const showAllInDropDown = (handleChange) => {
+  export const showAllInDropDown = (handleChange, toggleChange) => {
     return (
       <>
-      {showInDropDown(all.listBackpack, handleChange)}
-      {showInDropDown(all.listBag, handleChange)}
-      {showInDropDown(all.listBelt, handleChange)}
-      {showInDropDown(all.listBlazer, handleChange)}
-      {showInDropDown(all.listDress, handleChange)}
-      {showInDropDown(all.listJacket, handleChange)}
-      {showInDropDown(all.listJeans, handleChange)}
-      {showInDropDown(all.listLegging, handleChange)}
-      {showInDropDown(all.listPant, handleChange)}
-      {showInDropDown(all.listPyjamas, handleChange)}
-      {showInDropDown(all.listShirt, handleChange)}
-      {showInDropDown(all.listShoes, handleChange)}
-      {showInDropDown(all.listShorts, handleChange)}
-      {showInDropDown(all.listSkirt, handleChange)}
-      {showInDropDown(all.listSuit, handleChange)}
-      {showInDropDown(all.listTop, handleChange)}
-      {showInDropDown(all.listTshirt, handleChange)}
-      {showInDropDown(all.listWallet, handleChange)}
-      {showInDropDown(all.listWatch, handleChange)}
+      {showInDropDown(all.listBackpack, handleChange, toggleChange)}
+      {showInDropDown(all.listBag, handleChange, toggleChange)}
+      {showInDropDown(all.listBelt, handleChange, toggleChange)}
+      {showInDropDown(all.listBlazer, handleChange, toggleChange)}
+      {showInDropDown(all.listDress, handleChange, toggleChange)}
+      {showInDropDown(all.listJacket, handleChange, toggleChange)}
+      {showInDropDown(all.listJeans, handleChange, toggleChange)}
+      {showInDropDown(all.listLegging, handleChange, toggleChange)}
+      {showInDropDown(all.listPant, handleChange, toggleChange)}
+      {showInDropDown(all.listPyjamas, handleChange, toggleChange)}
+      {showInDropDown(all.listShirt, handleChange, toggleChange)}
+      {showInDropDown(all.listShoes, handleChange, toggleChange)}
+      {showInDropDown(all.listShorts, handleChange, toggleChange)}
+      {showInDropDown(all.listSkirt, handleChange, toggleChange)}
+      {showInDropDown(all.listSuit, handleChange, toggleChange)}
+      {showInDropDown(all.listTop, handleChange, toggleChange)}
+      {showInDropDown(all.listTshirt, handleChange, toggleChange)}
+      {showInDropDown(all.listWallet, handleChange, toggleChange)}
+      {showInDropDown(all.listWatch, handleChange, toggleChange)}
       </>
     )
   }
   
   
-  export const DropDownPerGender = (handleChange) => {
+  export const DropDownPerGender = (handleChange, toggleChange) => {
     return (  
         <div class="dropdown" id="dropdown" role="menu">
           <div class="dropdown-content">
-              {showAllInDropDown(handleChange)}
+              {showAllInDropDown(handleChange, toggleChange)}
           </div>
         </div>
     )
