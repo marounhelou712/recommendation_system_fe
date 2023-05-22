@@ -10,7 +10,10 @@ class SignUp extends Component {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      firstname: "",
+      lastname: "",
+      cpassword: ""
     };
   }
   handleChange = e =>
@@ -22,9 +25,9 @@ class SignUp extends Component {
     //   return this.setState({ error: "Fill all fields!" });
     // }  
     
-    handleLOGIN("user4","pass4");
+    handleLOGIN("demo","demo");
     
-    this.props.context.login(4);
+    this.props.context.login(38);
     
   };
   
@@ -49,18 +52,19 @@ class SignUp extends Component {
               <input
                 className="input"
                 type="text"
-                name="username"
+                name="firstname"
                 onChange={this.handleChange}
               />
             </div>
             <div className="field">
-              <label className="label">Gender: </label>
-              <input
-                className="input"
-                type="text"
-                name="username"
-                onChange={this.handleChange}
-              />
+            <label className="label">Gender: </label>
+                <div class="select" style={{width: '100%'}} >
+                  <select style={{width: '100%'}}>
+                  <option>Please Select Gender</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option></select>
+                </div>
             </div>
             <div className="field">
               <label className="label">Password: </label>
@@ -83,13 +87,13 @@ class SignUp extends Component {
               <input
                 className="input"
                 type="text"
-                name="username"
+                name="lastname"
                 onChange={this.handleChange}
               />
             </div>
             <div className="field">
               <label className="label">Username: </label>
-              <select
+              <input
                 className="input"
                 type="text"
                 name="username"
@@ -101,7 +105,7 @@ class SignUp extends Component {
               <input
                 className="input"
                 type="password"
-                name="password"
+                name="cpassword"
                 onChange={this.handleChange}
               />
             </div>

@@ -29,6 +29,7 @@ export default class App extends Component {
       maxprice: "",
       brand: "",
       isDropdownOpen: true,
+      nbInteraction: 0,
     };
 
     this.routerRef = React.createRef();
@@ -54,8 +55,10 @@ export default class App extends Component {
     localStorage.setItem('user', data);
     setTimeout(() => {
       let acc = localStorage.getItem("access_token");
-      // getCollaborativeFiltering(acc, this.setRecommendation1);
-      // getNeuralNetwork(acc,this.setRecommendation2)
+      if (acc) {
+      getCollaborativeFiltering(acc, this.setRecommendation1);
+      getNeuralNetwork(acc,this.setRecommendation2);
+      }
     },1000)
   };
 
@@ -83,13 +86,20 @@ export default class App extends Component {
   viewProduct = product => {
     let acc = localStorage.getItem("access_token");
     let user = localStorage.getItem("user");
-
     if (acc) {
-      PostInterraction(acc, product.product.product_id, product.product.product_name, product.product.product_category, 
-        product.product.product_brand, product.product.price, 
-        product.product.product_description, product.product.product_color, 1, "view", 1);
+    PostInterraction(acc, product.product.product_id, product.product.product_name, product.product.product_category, 
+      product.product.product_brand, product.product.price, 
+      product.product.product_description, product.product.product_color, user, "view", 1);
+      let newnb = this.state.nbInteraction
+      if (newnb > 2){
+        getCollaborativeFiltering(acc, this.setRecommendation1);
+        getNeuralNetwork(acc,this.setRecommendation2);
+        this.setState({nbInteraction: 0})
+      } else {
+        this.setState({nbInteraction: newnb+1})
+      }
     }
-  }
+    }
   
   addToCart = cartItem => {
     let acc = localStorage.getItem("access_token");
@@ -101,9 +111,21 @@ export default class App extends Component {
     this.setState({ cart: cart });
     if (acc) {
 
+      let newnb = this.state.nbInteraction;
+      if (newnb > 2){
+        getCollaborativeFiltering(acc, this.setRecommendation1);
+        getNeuralNetwork(acc,this.setRecommendation2);
+        this.setState({nbInteraction: 0})
+      } else {
+        this.setState({nbInteraction: newnb+1})
+      }
+
       PostInterraction(acc, cartItem.product.product_id, cartItem.product.product_name, cartItem.product.product_category, 
         cartItem.product.product_brand, cartItem.product.price, 
-        cartItem.product.product_description, cartItem.product.product_color,1, "add to cart", 2);
+        cartItem.product.product_description, cartItem.product.product_color,user, "add to cart", 2);
+
+        
+
 
     } else {
       this.routerRef.current.history.push("/login");
@@ -124,9 +146,19 @@ export default class App extends Component {
     cart.map(p => {
       PostInterraction(acc, p.product_id, p.product_name, p.product_category, 
         p.product_brand, p.price, p.product_description, p.product_color,
-        1, "purchase", 3);
+        user, "purchase", 3);
+        let newnb = this.state.nbInteraction;
+        if (newnb > 2){
+          getCollaborativeFiltering(acc, this.setRecommendation1);
+          getNeuralNetwork(acc,this.setRecommendation2);
+          this.setState({nbInteraction: 0})
+        } else {
+          this.setState({nbInteraction: newnb+1})
+        }
     });
-    this.clearCart();}
+    this.clearCart();
+  
+  }
     else{
       this.routerRef.current.history.push("/login");
       return;
@@ -145,11 +177,9 @@ export default class App extends Component {
     this.setState({bestSeller: getProductFromListProductID(val)})
   }
 
-  // let products = listWatch;
-
   componentDidMount() {
 
-    // getBestSeller(this.setBestSeller);
+    getBestSeller(this.setBestSeller);
 
     let CF = localStorage.getItem("rec1");
     let NN = localStorage.getItem("rec2");
@@ -159,16 +189,10 @@ export default class App extends Component {
     if (NN){
       this.setState({ Recommended2: JSON.parse(NN) });
     }
-    this.setBestSeller(['703','1591','1592','3201','3250','4410']);
-    this.setRecommendation1(['302','704', '1595', '3206', '3250', '4415'])
-    this.setRecommendation2(['505','805', '1600', '3210', '3250', '4500'])
-
   }
-  // this.setState({ products: products, initialProducts: products });
-
-  goToHome = () => {
-    
-  }
+  // this.setBestSeller(['703','1591','1592','3201','3250','4410']);
+  // this.setRecommendation1(['302','704', '1595', '3206', '3250', '4415'])
+  // this.setRecommendation2(['505','805', '1600', '3210', '3250', '4500'])
 
   handleChange = (array) => {
     let productList = array;

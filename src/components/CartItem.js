@@ -1,5 +1,25 @@
 import React from "react";
 import { colorToBackgroundColor } from "./services";
+import {ReactComponent as Backpack} from './img/backpack.svg';
+import {ReactComponent as Bag} from './img/bag.svg';
+import {ReactComponent as Belt} from './img/belt.svg';
+import {ReactComponent as Blazer} from './img/blazer.svg';
+import {ReactComponent as Dress} from './img/dress.svg';
+import {ReactComponent as Jacket} from './img/jacket.svg';
+import {ReactComponent as Jeans} from './img/jeans.svg';
+import {ReactComponent as Leggings} from './img/leggins.svg';
+import {ReactComponent as Pajamas} from './img/pajamas.svg';
+import {ReactComponent as Pants} from './img/pants.svg';
+import {ReactComponent as Shirt} from './img/shirt.svg';
+import {ReactComponent as Shoes} from './img/shoes.svg';
+import {ReactComponent as Shorts} from './img/shorts.svg';
+import {ReactComponent as Skirt} from './img/skirt.svg';
+import {ReactComponent as Suit} from './img/suit.svg';
+import {ReactComponent as Tshirt} from './img/t-shirt.svg';
+import {ReactComponent as Top} from './img/top.svg';
+import {ReactComponent as Wallet} from './img/wallet.svg';
+import {ReactComponent as Watch} from './img/watch.svg';
+
 
 const CartItem = props => {
   // const { cartItem, cartKey } = props;
@@ -11,10 +31,25 @@ const CartItem = props => {
         <div className="media">
           <div className="media-left">
             <figure className="image is-64x64">
-              <img
-                src="https://bulma.io/images/placeholders/128x128.png"
-                alt="product"
-              />
+            {cartItem.product_category === "Backpack" && <Backpack style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Bag" && <Bag style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Belt" && <Belt style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Blazer" && <Blazer style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Dress" && <Dress style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Jacket" && <Jacket style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Jeans" && <Jeans style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Legging" && <Leggings style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Pyjamas" && <Pajamas style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Pant" && <Pants style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Shirt" && <Shirt style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Shoes" && <Shoes style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Shorts" && <Shorts style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Skirt" && <Skirt style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Suit" && <Suit style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "T-shirt" && <Tshirt style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Top" && <Top style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Wallet" && <Wallet style={{maxWidth: "64px", maxHeight: '64px'}}/>}
+            {cartItem.product_category === "Watch" && <Watch style={{maxWidth: "64px", maxHeight: '64px'}}/>}
             </figure>
           </div>
           <div className="media-content">

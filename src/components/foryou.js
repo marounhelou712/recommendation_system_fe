@@ -55,9 +55,9 @@ const ForYou = props => {
               />
             ))
           ) : (
-            <div className="column" style={{height: '100vh'}}>
+            <div className="column">
               <span className="title has-text-grey-light is-center">
-                Retrieving the best products for you...
+                Not enough data...
               </span>
             </div>
           )}
@@ -65,7 +65,7 @@ const ForYou = props => {
 
         <hr class="is-divider" style={{height: '5px', backgroundColor: '#3273dc'}}></hr>
         <div className="container" style={{backgroundColor: '#f0f8ff'}}>
-                <div className="has-text-centered is-size-4">
+                <div className="has-text-centered is-size-4 has-text-weight-semibold">
                    BASED ON YOUR PAST INTERACTIONS
                 </div>
         </div>
@@ -81,9 +81,9 @@ const ForYou = props => {
               />
             ))
           ) : (
-            <div className="column" style={{height: '100vh'}}>
+            <div className="column" >
               <span className="title has-text-grey-light">
-                Retrieving the best products for you...
+                Not enough data...
               </span>
             </div>
           )}

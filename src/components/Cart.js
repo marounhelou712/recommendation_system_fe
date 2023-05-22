@@ -1,9 +1,13 @@
 import React, { Fragment } from "react";
 import withContext from "../withContext";
 import CartItem from "./CartItem";
+import { Link } from "react-router-dom";
 
 const Cart = props => {
   const { cart } = props.context;
+
+  const [view, setView] = React.useState(false);
+  console.log(view)
   return (
     <Fragment>
       <div className="hero is-link">
@@ -33,18 +37,39 @@ const Cart = props => {
                 </button>{" "}
                 <button
                   className="button is-link"
-                  onClick={() => props.context.checkout()}
+                  onClick={() => {props.context.checkout(); setView(true);}}
                 >
                   Checkout
                 </button>
               </div>
             </div>
+
+
+
           </div>
         ) : (
           <div className="column">
             <div className="title has-text-grey-light">No item in cart!</div>
           </div>
         )}
+        {view &&
+        <div class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Transaction</p>
+            <button class="delete" aria-label="close" onClick={(e) => {setView(false); window.location.pathname="/home"}}></button>
+          </header>
+
+          <section class="modal-card-body">
+            <div>Products Successfully Bought</div>
+          </section>
+          <footer>
+          <div class="modal-card-foot"></div>
+          </footer>
+        </div>
+      </div> 
+      }
       </div>
     </Fragment>
   );
